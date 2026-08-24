@@ -10,13 +10,13 @@ const HomePageHero = () => {
           <p className="hero-sub">{"The Thistle's Network brings current and aspiring apprentices together — for advice, friendship, and the social side of work that's easy to miss when you didn't go down the university route."}</p>
           <div className="hero-ctas">
             <a href="#register" className="btn btn-primary">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M12 4v2M5 12H3M21 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20v-6M12 4v2M5 12H3M21 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg>
               Register to join
             </a>
             <a href="#events" className="btn btn-ghost">See our events</a>
           </div>
           <p className="hero-note">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
             Free to join · WhatsApp access is granted after registration
           </p>
         </div>

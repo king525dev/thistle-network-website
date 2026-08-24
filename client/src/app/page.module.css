@@ -1,7 +1,4 @@
 /* NAV */
-header{ position:fixed; top:0; left:0; right:0; z-index:100; padding:16px 0; transition:background .3s ease, box-shadow .3s ease, padding .3s ease; }
-header.scrolled{ background:rgba(251,250,247,0.92); backdrop-filter:blur(14px); box-shadow:0 1px 0 var(--line); padding:11px 0; }
-nav{ display:flex; align-items:center; justify-content:space-between; }
 .brand{ display:flex; align-items:center; gap:10px; }
 .brand-mark{ width:36px; height:36px; object-fit:contain; mix-blend-mode:multiply; flex-shrink:0; }
 .brand-text{ font-family:var(--display); font-weight:600; font-size:16.5px; white-space:nowrap; }
@@ -206,7 +203,6 @@ nav{ display:flex; align-items:center; justify-content:space-between; }
 .comment-form button svg{ width:16px; height:16px; }
 
 /* NEWSLETTER + FOOTER */
-footer{ background:var(--ink); border-top:1px solid var(--line-soft); padding:0; }
 .newsletter{ padding:64px 0; border-bottom:1px solid var(--line-soft); }
 .nl-grid{ display:flex; justify-content:space-between; align-items:center; gap:30px; flex-wrap:wrap; }
 .nl-grid h3{ color:var(--paper); font-size:22px; }
@@ -233,7 +229,3 @@ footer{ background:var(--ink); border-top:1px solid var(--line-soft); padding:0;
 
 .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
 .reveal.in{ opacity:1; transform:translateY(0); }
-
-@media (prefers-reduced-motion: reduce){
-  *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
-}

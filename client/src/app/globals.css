@@ -185,3 +185,12 @@ h3 {
   padding: 9px 16px;
   font-size: 13px;
 }
+
+header{ position:fixed; top:0; left:0; right:0; z-index:100; padding:16px 0; transition:background .3s ease, box-shadow .3s ease, padding .3s ease; }
+header.scrolled{ background:rgba(251,250,247,0.92); backdrop-filter:blur(14px); box-shadow:0 1px 0 var(--line); padding:11px 0; }
+nav{ display:flex; align-items:center; justify-content:space-between; }
+footer{ background:var(--ink); border-top:1px solid var(--line-soft); padding:0; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+}
