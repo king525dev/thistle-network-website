@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
 
-// import Navbar from "@/components/Navbar";
-// import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Thistle Network",
@@ -17,11 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* <Navbar /> */}
+        <NavBar/>
 
-        <main>{children}</main>
+        <main id="top">{children}</main>
 
-        {/* <Footer /> */}
+        <Footer/>
       </body>
     </html>
   );
