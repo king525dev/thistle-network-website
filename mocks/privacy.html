@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Notice — The Thistle's Network</title>
+    <logo />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ink: #11162A;
+            --ink-soft: #1B2140;
+            --paper: #FBFAF7;
+            --paper-dim: #F1EFE9;
+            --thistle: #6B3FA0;
+            --loch: #2E5FA3;
+            --fern: #2C7A4B;
+            --fern-deep: #1F5B39;
+            --line: rgba(17, 22, 42, 0.12);
+            --line-soft: rgba(251, 250, 247, 0.16);
+            --grad-bloom: linear-gradient(135deg, var(--thistle) 0%, var(--loch) 52%, var(--fern) 100%);
+            --shadow: 0 20px 60px -25px rgba(17, 22, 42, 0.35);
+            --radius: 14px;
+            --display: "Fraunces", serif;
+            --body: "Inter", -apple-system, sans-serif;
+            --mono: "JetBrains Mono", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body);
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        section {
+            position: relative;
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        @media (max-width:640px) {
+            .wrap {
+                padding: 0 20px;
+            }
+        }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--fern-deep);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--grad-bloom);
+            display: inline-block;
+        }
+
+        .on-dark .eyebrow {
+            color: #B9E6C6;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--display);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.08;
+            color: var(--ink);
+        }
+
+        .on-dark h1,
+        .on-dark h2,
+        .on-dark h3,
+        .on-dark h4 {
+            color: var(--paper);
+        }
+
+        p {
+            color: #3A4160;
+        }
+
+        .on-dark p {
+            color: rgba(251, 250, 247, 0.72);
+        }
+
+        h2 {
+            font-size: clamp(28px, 4vw, 44px);
+        }
+
+        h3 {
+            font-size: clamp(20px, 2.4vw, 26px);
+        }
+
+        .c-purple {
+            color: var(--thistle);
+        }
+
+        .c-green {
+            color: var(--fern-deep);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-family: var(--body);
+            font-weight: 700;
+            font-size: 15px;
+            padding: 14px 26px;
+            border-radius: 100px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--grad-bloom);
+            color: #fff;
+            box-shadow: 0 14px 30px -12px rgba(46, 95, 163, 0.55);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 18px 36px -12px rgba(46, 95, 163, 0.65);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border-color: var(--line);
+            color: var(--ink);
+        }
+
+        .btn-ghost:hover {
+            background: var(--paper-dim);
+        }
+
+        .on-dark .btn-ghost {
+            border-color: var(--line-soft);
+            color: var(--paper);
+        }
+
+        .on-dark .btn-ghost:hover {
+            background: rgba(251, 250, 247, 0.08);
+        }
+
+        .btn-sm {
+            padding: 9px 16px;
+            font-size: 13px;
+        }
+
+        /* NAV */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            transition: background .3s ease, box-shadow .3s ease, padding .3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(251, 250, 247, 0.92);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 1px 0 var(--line);
+            padding: 11px 0;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-mark {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 16.5px;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            font-size: 14.5px;
+            font-weight: 600;
+        }
+
+        .nav-links a {
+            color: var(--ink);
+            opacity: 0.75;
+            transition: opacity .2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            opacity: 1;
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-cta .btn {
+            padding: 10px 20px;
+            font-size: 13.5px;
+        }
+
+        @media (max-width:900px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* PAGE HERO */
+        .page-hero {
+            padding: 150px 0 60px;
+            background: radial-gradient(720px 380px at 80% -10%, rgba(107, 63, 160, 0.09), transparent 60%), radial-gradient(620px 380px at 5% 10%, rgba(44, 122, 75, 0.09), transparent 60%), var(--paper);
+        }
+
+        .page-hero h1 {
+            font-size: clamp(34px, 5vw, 52px);
+            margin-bottom: 16px;
+        }
+
+        .page-hero p {
+            max-width: 560px;
+            font-size: 16.5px;
+        }
+
+        .page-hero .last-updated {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #6A7092;
+            margin-top: 24px;
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--paper-dim);
+            border-radius: 100px;
+        }
+
+        /* PRIVACY CONTENT */
+        .privacy-content {
+            padding: 20px 0 110px;
+        }
+
+        .privacy-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .privacy-section {
+            margin-bottom: 40px;
+        }
+
+        .privacy-section h2 {
+            font-size: clamp(22px, 2.8vw, 30px);
+            margin-bottom: 16px;
+            color: var(--ink);
+        }
+
+        .privacy-section h3 {
+            font-family: var(--body);
+            font-weight: 700;
+            font-size: 15.5px;
+            margin-bottom: 10px;
+            color: var(--ink-soft);
+            letter-spacing: 0;
+        }
+
+        .privacy-section p {
+            font-size: 15px;
+            color: #3A4160;
+            margin-bottom: 14px;
+        }
+
+        .privacy-section ul {
+            margin: 0 0 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .privacy-section li {
+            font-size: 14.5px;
+            color: #3A4160;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .privacy-section li::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+            background: var(--thistle);
+            display: inline-block;
+        }
+
+        .privacy-divider {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 38px 0;
+        }
+
+        .privacy-contact-box {
+            background: var(--paper-dim);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin-top: 20px;
+        }
+
+        .privacy-contact-box p {
+            margin-bottom: 6px;
+        }
+
+        .privacy-contact-box a {
+            color: var(--fern-deep);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(31, 91, 57, 0.3);
+            padding-bottom: 1px;
+        }
+
+        .privacy-contact-box a:hover {
+            color: var(--thistle);
+            border-bottom-color: var(--thistle);
+        }
+
+        .privacy-toc {
+            background: var(--paper-dim);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 22px 28px;
+            margin-bottom: 40px;
+        }
+
+        .privacy-toc h3 {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #6A7092;
+            margin-bottom: 12px;
+        }
+
+        .privacy-toc ul {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .privacy-toc li {
+            font-size: 13.5px;
+            color: #3A4160;
+        }
+
+        .privacy-toc li a {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .privacy-toc li a:hover {
+            color: var(--thistle);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--ink);
+            border-top: 1px solid var(--line-soft);
+            padding: 0;
+        }
+
+        .newsletter {
+            padding: 64px 0;
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .nl-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nl-grid h3 {
+            color: var(--paper);
+            font-size: 22px;
+        }
+
+        .nl-grid p {
+            font-size: 13.5px;
+            margin-top: 6px;
+        }
+
+        .nl-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nl-form input {
+            padding: 13px 16px;
+            border-radius: 100px;
+            border: 1px solid var(--line-soft);
+            background: rgba(251, 250, 247, 0.06);
+            color: var(--paper);
+            font-size: 14px;
+            min-width: 240px;
+        }
+
+        .nl-form input::placeholder {
+            color: rgba(251, 250, 247, 0.4);
+        }
+
+        .nl-form .btn-primary {
+            padding: 13px 24px;
+            font-size: 14px;
+            border: none;
+        }
+
+        .foot-main {
+            padding: 56px 0 30px;
+            display: grid;
+            grid-template-columns: 1.4fr repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width:760px) {
+            .foot-main {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .foot-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .foot-brand .brand-mark {
+            width: 30px;
+            height: 30px;
+            background: var(--paper);
+            border-radius: 8px;
+            padding: 3px;
+        }
+
+        .foot-brand .brand-text {
+            color: var(--paper);
+        }
+
+        .foot-col p.foot-desc {
+            max-width: 260px;
+            font-size: 13.5px;
+            margin-bottom: 18px;
+        }
+
+        .foot-col h5 {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(251, 250, 247, 0.45);
+            margin-bottom: 16px;
+        }
+
+        .foot-col ul {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .foot-col a {
+            font-size: 13.5px;
+            color: rgba(251, 250, 247, 0.75);
+        }
+
+        .foot-col a:hover {
+            color: var(--paper);
+        }
+
+        .foot-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .foot-social a {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--line-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .foot-social svg {
+            width: 15px;
+            height: 15px;
+            color: var(--paper);
+        }
+
+        .foot-bottom {
+            padding: 22px 0 30px;
+            border-top: 1px solid var(--line-soft);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12.5px;
+            color: rgba(251, 250, 247, 0.45);
+            font-family: var(--mono);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="siteHeader">
+        <nav class="wrap">
+            <a href="index.html" class="brand">
+                <logo />
+                <span class="brand-text"><span class="c-purple">Thistle's</span> <span
+                        class="c-green">Network</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#audience">Who it's for</a></li>
+                <li><a href="index.html#aims">Our aims</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="index.html#register" class="btn btn-primary">Register to join</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+
+        <!-- ============ PAGE HERO ============ -->
+        <section class="page-hero">
+            <div class="wrap">
+                <p class="eyebrow">Legal</p>
+                <h1>Privacy Notice</h1>
+                <p>How The Thistle's Network collects, uses, and protects your personal information — and the choices
+                    you have.</p>
+                <span class="last-updated">Last updated: 30/08/2026</span>
+            </div>
+        </section>
+
+        <!-- ============ PRIVACY CONTENT ============ -->
+        <section class="privacy-content">
+            <div class="wrap privacy-inner">
+
+                <!-- Table of Contents -->
+                <div class="privacy-toc reveal">
+                    <h3>On this page</h3>
+                    <ul>
+                        <li><a href="#who-we-are">Who we are</a></li>
+                        <li><a href="#what-this-covers">What this notice covers</a></li>
+                        <li><a href="#information-we-collect">Information we collect</a></li>
+                        <li><a href="#how-we-use">How we use your information</a></li>
+                        <li><a href="#who-we-share">Who we share information with</a></li>
+                        <li><a href="#international">International transfers</a></li>
+                        <li><a href="#retention">How long we keep information</a></li>
+                        <li><a href="#your-rights">Your rights</a></li>
+                        <li><a href="#changes">Changes to this notice</a></li>
+                        <li><a href="#contact-us">Contact us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Who we are -->
+                <div class="privacy-section reveal" id="who-we-are">
+                    <h2>Who we are</h2>
+                    <p>The Thistle's Network ("we", "us") is the data controller for personal information described in
+                        this notice.</p>
+                    <div class="privacy-contact-box">
+                        <p><strong>Email:</strong> <a
+                                href="mailto:thistlenetwork@gmail.com">thistlenetwork@gmail.com</a></p>
+                    </div>
+                </div>
+
+                <hr class="privacy-divider">
+
+                <!-- What this notice covers -->
+                <div class="privacy-section reveal" id="what-this-covers">
+                    <h2>What this notice covers</h2>
+                    <p>This notice explains how we collect and use personal information when you:</p>
+                    <ul>
+                        <li>Visit our website or contact us</li>
+                        <li>Receive an invitation to one of our events</li>
+                        <li>Register for and attend an event</li>
+                        <li>Sign up to our network or mailing list</li>
+                        <li>Partner or collaborate with us</li>
+                    </ul>
+                </div>
+
+                <hr class="privacy-divider">
+
+                <!-- Information we collect -->
+                <div class="privacy-section reveal" id="information-we-collect">
+                    <h2>Information we collect</h2>
+                    <p><strong>From you directly:</strong> name, job title, organisation, work email, phone number (if
+                        provided), dietary and accessibility requirements, and any information you include in messages
+                        to us.</p>
+                    <p><strong>From publicly available business sources:</strong> corporate contact details we use to
+                        invite employers to relevant events, sourced from professional networks, corporate websites, and
+                        our existing employer relationships.</p>
+                    <p><strong>Automatically:</strong> limited technical information when you visit our website.</p>
+                </div>
+
+                <hr class="privacy-divider">
+
+                <!-- How we use your information -->
+                <div class="privacy-section reveal" id="how-we-use">
+                    <h2>How we use your information and our lawful basis</h2>
+
+                    <h3>Inviting employers to events</h3>
+                    <p>We use business contact details to invite organisations to events relevant to their work.
+                        <em>Lawful basis: legitimate interests</em> in connecting our network with employers active in
+                        early careers and Scottish apprenticeships.</p>
+
+                    <h3>Managing event registration and attendance</h3>
+                    <p>Once you confirm attendance, we use your details to register you, communicate logistics, and
+                        cater appropriately. <em>Lawful basis: legitimate interests</em> in running the event you've
+                        agreed to attend. Dietary and accessibility information that reveals health or religious data is
+                        processed on the basis of your <em>explicit consent</em> (given when you submit the registration
+                        form).</p>
+
+                    <h3>Sharing delegate lists with event co-hosts</h3>
+                    <p>Where an event is co-hosted, we share a delegate list with the co-host after the event (typically
+                        name, job title, organisation, and work email). The co-host acts as an independent controller.
+                        <em>Lawful basis: legitimate interests</em> in supporting joint event partners. We tell you who
+                        the co-host is and link to their privacy notice at the point of registration, and you can object
+                        before the list is shared.</p>
+
+                    <h3>Network updates and marketing</h3>
+                    <p>If you've subscribed to our updates, we send occasional emails about events and the network.
+                        <em>Lawful basis: consent</em> — you can unsubscribe at any time using the link in any email.
+                    </p>
+
+                    <h3>Responding to enquiries and managing partnerships</h3>
+                    <p><em>Lawful basis: legitimate interests</em> in operating the network and responding to those who
+                        contact us.</p>
+
+                    <h3>Legal and compliance obligations</h3>
+                    <p>Where we need to comply with the law. <em>Lawful basis: legal obligation.</em></p>
+                </div>
+
+                <hr class="privacy-divider">
+
+                <!-- Who we share information with -->
+                <div class="privacy-section reveal" id="who-we-share">
+                    <h2>Who we share information with</h2>
+                    <ul>
+                        <li><strong>Service providers acting as our processors</strong> — for example our form and email
+                            providers, and storage providers. They process data only on our instructions and under
+                            contract.</li>
+                        <li><strong>Event co-hosts and partners</strong> — for joint events, as described above. These
+                            act as independent controllers.</li>
+                        <li><strong>Authorities or advisers</strong> — where required by law or to protect our legal
+                            rights.</li>
+                    </ul>
+                    <p>We do not sell personal information.</p>
+                </div>
+
+                <hr class="privacy-divider">
+
+                <!-- International transfers -->
+                <div class="privacy-section reveal" id="international">
+                    <h2>International transfers</h2>
+                    <p>We aim to keep personal data within the UK and EU. Where any provider processes data outside this
+                        region, we put appropriate safeguards in place (such as the UK International Data Transfer
+                        Agreement or EU Standard Contractual Clauses).</p>
+                </div>
+
+                <hr class="privacy-divider">
+
+                <!-- How long we keep information -->
+                <div class="privacy-section reveal" id="retention">
+                    <h2>How long we keep information</h2>
+                    <ul>
+                        <li><strong>Event registration data:</strong> 12 months after the event</li>
+                        <li><strong>Email correspondence:</strong> up to 3 years from last contact</li>
+                        <li><strong>Mailing list subscriptions:</strong> until you unsubscribe</li>
+                        <li><strong>Partnership and contractual records:</strong> 7 years (for legal and accounting
+                            reasons)</li>
+                    </ul>
+                </div>
+
+                <hr class="privacy-divider">
+
+                <!-- Your rights -->
+                <div class="privacy-section reveal" id="your-rights">
+                    <h2>Your rights</h2>
+                    <p>Under UK GDPR you have the right to:</p>
+                    <ul>
+                        <li>Access the personal information we hold about you</li>
+                        <li>Have inaccurate information corrected</li>
+                        <li>Have your information deleted in certain circumstances</li>
+                        <li>Restrict or object to our processing</li>
+                        <li>Receive your information in a portable format</li>
+                        <li>Withdraw consent where processing is based on consent</li>
+                    </ul>
+                    <p>To exercise any right, email <a href="mailto:thistlenetwork@gmail.com"
+                            style="color:var(--fern-deep); font-weight:600; border-bottom:1px solid rgba(31,91,57,0.3); padding-bottom:1px;">thistlenetwork@gmail.com</a>.
+                        We'll respond within one month.</p>
+                </div>
+
+                <hr class="privacy-divider">
+
+                <!-- Changes to this notice -->
+                <div class="privacy-section reveal" id="changes">
+                    <h2>Changes to this notice</h2>
+                    <p>We may update this notice from time to time. The "last updated" date at the top shows when it was
+                        last changed. Material changes will be communicated where appropriate.</p>
+                </div>
+
+                <hr class="privacy-divider">
+
+                <!-- Contact us -->
+                <div class="privacy-section reveal" id="contact-us">
+                    <h2>Contact us</h2>
+                    <p>Questions about this notice or how we handle your information? Email <a
+                            href="mailto:thistlenetwork@gmail.com"
+                            style="color:var(--fern-deep); font-weight:600; border-bottom:1px solid rgba(31,91,57,0.3); padding-bottom:1px;">thistlenetwork@gmail.com</a>.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============ CONTACT (light, simplified) ============ -->
+        <section class="contact" id="contact">
+            <div class="wrap contact-inner">
+                <p class="eyebrow" style="justify-content:center;">Get in touch</p>
+                <h2>Say hello.</h2>
+                <a class="contact-email" href="mailto:thistlenetwork@gmail.com">thistlenetwork@gmail.com</a>
+                <div class="contact-socials">
+                    <a class="contact-social" href="#" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.96 3.77-1.96 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.45-2.16 2.96V21H9z" />
+                        </svg>
+                        LinkedIn
+                    </a>
+                    <a class="contact-social" href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <rect x="3" y="3" width="18" height="18" rx="5" />
+                            <circle cx="12" cy="12" r="4" />
+                            <circle cx="17.5" cy="6.5" r="1" />
+                        </svg>
+                        Instagram
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="newsletter">
+            <div class="wrap nl-grid">
+                <div>
+                    <h3>Stay looped in</h3>
+                    <p>One email a month — events, insight days, and network news.</p>
+                </div>
+                <form class="nl-form" id="nlForm">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button class="btn btn-primary" type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="wrap foot-main">
+            <div class="foot-col">
+                <div class="foot-brand">
+                    <logo />
+                    <span class="brand-text"><span class="c-purple">Thistle's</span> <span
+                            class="c-green">Network</span></span>
+                </div>
+                <p class="foot-desc">A community-led network for current and aspiring apprentices across Scotland.</p>
+                <div class="foot-social">
+                    <a href="mailto:thistlenetwork@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.6">
+                            <path d="M4 4h16v12H7l-3 3V4Z" />
+                        </svg></a>
+                    <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.96 3.77-1.96 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.45-2.16 2.96V21H9z" />
+                        </svg></a>
+                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.6">
+                            <rect x="3" y="3" width="18" height="18" rx="5" />
+                            <circle cx="12" cy="12" r="4" />
+                            <circle cx="17.5" cy="6.5" r="1" />
+                        </svg></a>
+                </div>
+            </div>
+            <div class="foot-col">
+                <h5>Network</h5>
+                <ul>
+                    <li><a href="index.html#audience">Aspiring apprentices</a></li>
+                    <li><a href="index.html#audience">Current apprentices</a></li>
+                    <li><a href="index.html#aims">Our aims</a></li>
+                    <li><a href="index.html#about">About the committee</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <h5>Get involved</h5>
+                <ul>
+                    <li><a href="index.html#register">Register to join</a></li>
+                    <li><a href="gallery.html">Photo gallery</a></li>
+                    <li><a href="news.html">News &amp; announcements</a></li>
+                    <li><a href="index.html#contact">Contact us</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <h5>Legal</h5>
+                <ul>
+                    <li><a href="privacy.html">Privacy notice</a></li>
+                    <li><a href="index.html#register">Register to join</a></li>
+                    <li><a href="index.html#events">Event calendar</a></li>
+                    <li><a href="index.html#contact">Contact us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap foot-bottom">
+            <span>© 2026 The Thistle's Network. All rights reserved.</span>
+            <span>Made by apprentices, for apprentices — Scotland.</span>
+        </div>
+    </footer>
+
+    <script>
+        // header scroll state
+        const header = document.getElementById('siteHeader');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 30);
+        });
+
+        // reveal on scroll
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // mock newsletter submission
+        const nlForm = document.getElementById('nlForm');
+        if (nlForm) {
+            nlForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const input = this.querySelector('input');
+                const btn = this.querySelector('button');
+                btn.textContent = 'Subscribed ✓';
+                input.value = '';
+                setTimeout(() => { btn.textContent = 'Subscribe'; }, 2500);
+            });
+        }
+
+        // smooth scroll for in-page TOC links (progressive enhancement)
+        document.querySelectorAll('.privacy-toc a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId && targetId.startsWith('#')) {
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
