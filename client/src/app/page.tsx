@@ -8,6 +8,7 @@ import FAQ from "@/components/blocks/FAQ";
 
 export default function Home() {
   return (
+    
     <>
       <HomePageHero/>
       <HomePageRegistration/>
