@@ -429,6 +429,12 @@ footer {
     padding: 0;
 }
 
+@media (max-width:1210px) {
+        footer {
+        padding: 0 5%;
+    }
+}
+
 .newsletter {
     padding: 64px 0;
     border-bottom: 1px solid var(--line-soft);

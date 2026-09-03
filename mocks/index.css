@@ -1393,9 +1393,9 @@ footer {
 }
 
 @media (max-width:1210px) {
-    footer {
-    padding: 0 5%;
-}
+        footer {
+        padding: 0 5%;
+    }
 }
 
 .newsletter {
