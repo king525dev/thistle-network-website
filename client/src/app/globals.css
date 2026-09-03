@@ -906,3 +906,210 @@ footer{ background:var(--ink); border-top:1px solid var(--line-soft); padding:0;
   width: 18px;
   height: 18px;
 }
+
+/* ============ NEWS PAGE SPECIFIC STYLES ============ */
+.feed {
+  padding: 20px 0 110px;
+}
+
+.feed-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.post {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 26px -20px rgba(17, 22, 42, 0.25);
+}
+
+.post-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 22px 14px;
+}
+
+.post-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--grad-bloom);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+  mix-blend-mode: screen;
+}
+
+.post-author {
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.post-time {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #6A7092;
+}
+
+.post-pin {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fern-deep);
+  background: #EAF4EC;
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+.post-body {
+  padding: 0 22px 16px;
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.post-img {
+  width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.post-action {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #3A4160;
+  cursor: pointer;
+  user-select: none;
+  flex: 1;
+  justify-content: center;
+  transition: background .15s ease;
+}
+
+.post-action:hover {
+  background: var(--paper-dim);
+}
+
+.post-action svg {
+  width: 18px;
+  height: 18px;
+}
+
+.post-action.liked {
+  color: var(--thistle);
+}
+
+.post-action.liked svg {
+  fill: var(--thistle);
+  stroke: var(--thistle);
+}
+
+.post-comments {
+  border-top: 1px solid var(--line);
+  padding: 14px 22px 18px;
+  display: none;
+}
+
+.post-comments.open {
+  display: block;
+}
+
+.comment {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.comment-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--paper-dim);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--fern-deep);
+}
+
+.comment-bubble {
+  background: var(--paper-dim);
+  border-radius: 12px;
+  padding: 9px 13px;
+  font-size: 13.5px;
+}
+
+.comment-bubble b {
+  font-size: 12.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.comment-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.comment-form input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  font-size: 13.5px;
+  font-family: var(--body);
+  background: var(--paper);
+}
+
+.comment-form input:focus {
+  outline: 2px solid var(--loch);
+  outline-offset: 1px;
+}
+
+.comment-form button {
+  border: none;
+  background: var(--grad-bloom);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-form button svg {
+  width: 16px;
+  height: 16px;
+}
