@@ -18,20 +18,39 @@
 
     <header id="siteHeader">
         <nav class="wrap">
+            <!-- Brand (unchanged) -->
             <a href="index.html" class="brand">
-                <logo />
-                <span class="brand-text"><span class="c-purple">Thistle</span> <span
-                        class="c-green">Network</span></span>
+                <img src="index_svg_2.svg" alt="The Thistle's Network logo" class="brand-mark" />
+                <span class="brand-text"><span class="c-purple">Thistle</span> <span class="c-green">Network</span></span>
             </a>
-            <ul class="nav-links">
-                <li><a href="index.html#audience">Who it's for</a></li>
-                <li><a href="index.html#aims">Our aims</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
-            </ul>
-            <div class="nav-cta">
-                <a href="index.html#register" class="btn btn-primary">Register to join</a>
+
+            <!-- Right side: mobile CTA + hamburger + overlay menu -->
+            <div class="nav-wrapper">
+                <!-- Mobile-only CTA (visible on small screens) -->
+                <div class="nav-cta nav-cta-mobile">
+                <a href="#audience" class="btn btn-primary btn-sm">Register</a>
+                </div>
+
+                <!-- Hamburger button -->
+                <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+                </button>
+
+                <!-- Overlay menu (contains nav links + desktop CTA) -->
+                <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="#audience">Who it's for</a></li>
+                    <li><a href="#aims">Our aims</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="nav-cta nav-cta-desktop">
+                    <a href="#audience" class="btn btn-primary">Register to join</a>
+                </div>
+                </div>
             </div>
-        </nav>
+            </nav>
     </header>
 
     <main id="top">

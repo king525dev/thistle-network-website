@@ -210,6 +210,144 @@ nav {
     justify-content: space-between;
 }
 
+/* ---- Hamburger menu styles ---- */
+
+.nav-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    padding: 6px 4px;
+    cursor: pointer;
+    z-index: 110;
+    position: relative;
+}
+
+.hamburger span {
+    display: block;
+    width: 26px;
+    height: 2.5px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform .3s ease, opacity .3s ease;
+    transform-origin: center;
+}
+
+/* X animation when open */
+.hamburger.open span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* Mobile overlay menu */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Hide mobile-only CTA on desktop, hide desktop CTA on mobile */
+.nav-cta-mobile {
+    display: none;
+}
+
+.nav-cta-desktop {
+    display: flex;
+}
+
+/* -------- BREAKPOINT: 900px and below -------- */
+@media (max-width: 900px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-cta-mobile {
+        display: flex;
+    }
+
+    .nav-cta-desktop {
+        display: none !important;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--paper);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 28px;
+        padding: 40px 24px;
+        transform: translateY(-110%);
+        transition: transform .4s cubic-bezier(.3, .1, .2, 1);
+        z-index: 105;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(17, 22, 42, 0.25);
+    }
+
+    .nav-menu.open {
+        transform: translateY(0);
+    }
+
+    /* Make nav links vertical and bigger */
+    .nav-links {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        font-size: 20px;
+    }
+
+    .nav-links a {
+        font-size: 20px;
+        opacity: 1;
+    }
+
+    .nav-cta {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nav-cta .btn {
+        font-size: 16px;
+        padding: 14px 32px;
+    }
+
+    /* Extra padding for scrolled header */
+    header.scrolled .nav-menu {
+        padding-top: 80px;
+    }
+}
+
+/* -------- DESKTOP (901px+) -------- */
+@media (min-width: 901px) {
+    .nav-cta-mobile {
+        display: none !important;
+    }
+
+    .nav-cta-desktop {
+        display: flex !important;
+    }
+}
+
 .brand {
     display: flex;
     align-items: center;
@@ -430,7 +568,7 @@ footer {
 }
 
 @media (max-width:1210px) {
-        footer {
+    footer {
         padding: 0 5%;
     }
 }
