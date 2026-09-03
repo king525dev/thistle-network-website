@@ -1,7 +1,7 @@
 import React from 'react'
 import GalleryAlbum from '../GalleryAlbum'
 
-const GalleryPage = () => {
+const Gallery = () => {
     return (
         <section className="gallery-page">
             <div className="wrap">
@@ -11,4 +11,4 @@ const GalleryPage = () => {
     )
 }
 
-export default GalleryPage
+export default Gallery
