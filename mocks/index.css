@@ -1089,6 +1089,13 @@ nav {
     gap: 16px;
 }
 
+@media (max-width:470px) {
+    .contact-socials {
+        flex-direction: column;
+        padding: 1rem 20%;
+    }
+}
+
 .contact-social {
     display: flex;
     align-items: center;
@@ -1383,6 +1390,12 @@ footer {
     background: var(--ink);
     border-top: 1px solid var(--line-soft);
     padding: 0;
+}
+
+@media (max-width:1210px) {
+    footer {
+    padding: 0 5%;
+}
 }
 
 .newsletter {
