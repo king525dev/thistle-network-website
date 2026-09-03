@@ -1,5 +1,5 @@
-import React from 'react'
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
 
 const GalleryAlbum = () => {
     return (
@@ -9,12 +9,33 @@ const GalleryAlbum = () => {
                 <span>19 March 2026 · Glasgow</span>
             </div>
             <div className="masonry">
-                <Image src="https://picsum.photos/seed/thistle-event-n/600/780" alt="Thistle Network stall at the Big Career Conference" loading="lazy" />
-                <Image src="https://picsum.photos/seed/thistle-event-o/600/460" alt="Committee members speaking with visitors" loading="lazy" />
-                <Image src="https://picsum.photos/seed/thistle-event-p/600/600" alt="Conference attendees signing up on the day" loading="lazy" />
+                <Image
+                    src="https://picsum.photos/seed/thistle-event-n/600/780"
+                    alt="Thistle Network stall at the Big Career Conference"
+                    width={600}
+                    height={780}
+                    className="masonry-img"
+                    loading="lazy"
+                />
+                <Image
+                    src="https://picsum.photos/seed/thistle-event-o/600/460"
+                    alt="Committee members speaking with visitors"
+                    width={600}
+                    height={460}
+                    className="masonry-img"
+                    loading="lazy"
+                />
+                <Image
+                    src="https://picsum.photos/seed/thistle-event-p/600/600"
+                    alt="Conference attendees signing up on the day"
+                    width={600}
+                    height={600}
+                    className="masonry-img"
+                    loading="lazy"
+                />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default GalleryAlbum
+export default GalleryAlbum;
