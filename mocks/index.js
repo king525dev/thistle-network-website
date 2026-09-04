@@ -20,12 +20,33 @@ document.querySelectorAll('.faq-q').forEach(btn => {
     });
 });
 
-// mock join form submission
-document.getElementById('joinForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    this.classList.add('hidden-form');
-    document.getElementById('confirmMsg').classList.add('show');
-});
+// Hamburger menu toggle
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navMenu = document.getElementById('navMenu');
+
+    function toggleMenu() {
+        const isOpen = navMenu.classList.toggle('open');
+        hamburgerBtn.classList.toggle('open', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    hamburgerBtn.addEventListener('click', toggleMenu);
+
+    // Close menu when a link is clicked
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navMenu.classList.contains('open')) {
+                toggleMenu();
+            }
+        });
+    });
+
+    // Close menu on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+            toggleMenu();
+        }
+    });
 
 // mock newsletter submission
 document.getElementById('nlForm').addEventListener('submit', function (e) {
@@ -132,31 +153,3 @@ document.getElementById('nlForm').addEventListener('submit', function (e) {
         if (spawnB) spawnNode(b, size);
     });
 })();
-
-// Hamburger menu toggle
-const hamburgerBtn = document.getElementById('hamburgerBtn');
-const navMenu = document.getElementById('navMenu');
-
-function toggleMenu() {
-    const isOpen = navMenu.classList.toggle('open');
-    hamburgerBtn.classList.toggle('open', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-}
-
-hamburgerBtn.addEventListener('click', toggleMenu);
-
-// Close menu when a link is clicked
-navMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-        if (navMenu.classList.contains('open')) {
-            toggleMenu();
-        }
-    });
-});
-
-// Close menu on Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navMenu.classList.contains('open')) {
-        toggleMenu();
-    }
-});
