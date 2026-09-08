@@ -172,12 +172,13 @@ h3 {
 
 .btn-ghost {
     background: transparent;
-    border-color: var(--line);
+    border-color: var(--paper);
     color: var(--ink);
 }
 
 .btn-ghost:hover {
-    background: var(--paper-dim);
+    background: var(--ink-soft);
+    color: var(--ink);
 }
 
 .on-dark .btn-ghost {
