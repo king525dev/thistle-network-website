@@ -22,7 +22,6 @@ export default function NewsPost({ post }: NewsPostProps) {
         postId={post.id}
         likeCount={post.likeCount}
         emojis={post.emojis ?? []}
-        comments={post.comments ?? []}
       />
     </article>
   );
