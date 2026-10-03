@@ -1,3 +1,4 @@
+import qs from 'qs';
 import type { NewsPost } from "@/types/news";
 import type { GalleryAlbum } from "@/types/gallery";
 import { strapiFetch } from "./client";
@@ -24,16 +25,40 @@ import type {
  */
 
 export async function getNewsPosts(): Promise<NewsPost[]> {
+
+  const newsQuery = qs.stringify({
+    populate: {
+      image: true,
+      author: {
+        populate: {
+          profileImage: true,
+        },
+      },
+    },
+  }, {
+    encodeValuesOnly: true,
+  });
+
   const res = await strapiFetch<StrapiCollectionResponse<StrapiNewsPostAttributes>>(
-    "/api/news-posts?populate[image]=true&populate[author][populate][profileImage]=true"
+    `/api/news-posts?${newsQuery}`
   );
   
   return res.data.map(mapStrapiNewsPost);
 }
 
 export async function getGalleryAlbums(): Promise<GalleryAlbum[]> {
+
+  const galleryQuery = qs.stringify({
+    populate: {
+      coverImage: true,
+      images: true
+    },
+  }, {
+    encodeValuesOnly: true,
+  });
+
   const res = await strapiFetch<StrapiCollectionResponse<StrapiGalleryAlbumAttributes>>(
-    "/api/gallery-albums?populate=deep"
+    `/api/gallery-albums?${galleryQuery}`
   );
   return res.data.map(mapStrapiGalleryAlbum);
 }

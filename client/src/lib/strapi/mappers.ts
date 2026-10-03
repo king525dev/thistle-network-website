@@ -62,6 +62,8 @@ export function mapStrapiGalleryAlbum(
 ): GalleryAlbum {
   const { id, documentId } = entity;
 
+  console.log(entity.images)
+
   return {
     id: String(id),
     uid: documentId,
@@ -71,10 +73,10 @@ export function mapStrapiGalleryAlbum(
     location: entity.location,
     attendeeCount: entity.attendeeCount,
     coverImage: mapStrapiMedia(entity.coverImage),
-    images: (entity.images?.data ?? []).map((image) => ({
+    images: (entity.images ?? []).map((image) => ({
       id: String(image.id),
       uid: image.documentId,
-      url: image.url,
+      url: STRAPI_URL + image.url,
       width: image.width,
       height: image.height,
       alternativeText: image.alternativeText,

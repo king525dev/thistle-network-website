@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/layout/PageHeader";
 import GalleryAlbum from "@/components/gallery/GalleryAlbum";
-import { mockGalleryAlbums } from "@/data/mock/gallery";
+import { getGalleryAlbums } from "@/lib/strapi/queries";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -9,7 +9,9 @@ export const metadata: Metadata = {
     "A look back at insight days, socials and meet-ups from across Scotland - new photos go up after every Thistle Network event.",
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const albums = await getGalleryAlbums();
+
   return (
     <>
       <PageHeader
@@ -20,8 +22,8 @@ export default function GalleryPage() {
 
       <section className="gallery-page">
         <div className="wrap gallery-albums">
-          {mockGalleryAlbums.length > 0 ? (
-            mockGalleryAlbums.map((album) => <GalleryAlbum key={album.id} album={album} />)
+          {albums.length > 0 ? (
+            albums.map((album) => <GalleryAlbum key={album.id} album={album} />)
           ) : (
             <p>No events have been added to the gallery yet.</p>
           )}

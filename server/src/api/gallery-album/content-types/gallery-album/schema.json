@@ -45,6 +45,12 @@
         "videos",
         "audios"
       ]
+    },
+    "event": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::event.event",
+      "mappedBy": "gallery_album"
     }
   }
 }

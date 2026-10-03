@@ -50,5 +50,5 @@ export type StrapiGalleryAlbumAttributes = {
   location?: string;
   attendeeCount?: number;
   coverImage?: StrapiMedia;
-  images?: { data: StrapiEntity<StrapiMediaAttributes>[] };
+  images?: StrapiEntity<StrapiMediaAttributes>[];
 };
