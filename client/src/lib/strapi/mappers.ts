@@ -31,21 +31,21 @@ export function mapStrapiMedia(media: StrapiMedia | undefined): Media | undefine
 export function mapStrapiNewsPost(
   entity: StrapiEntity<StrapiNewsPostAttributes>
 ): NewsPost {
-  const { id, attributes } = entity;
-  const authorEntity = attributes.author?.data;
+  const { id, documentId } = entity;
 
   return {
     id: String(id),
-    title: attributes.title,
-    body: attributes.body,
-    publishedAt: attributes.publishedAt,
-    pinned: attributes.pinned ?? false,
-    image: mapStrapiMedia(attributes.image),
-    author: authorEntity
+    uid: documentId,
+    title: entity.title,
+    body: entity.body,
+    publishedAt: entity.publishedAt,
+    pinned: entity.pinned ?? false,
+    image: mapStrapiMedia(entity.image),
+    author: entity.author
       ? {
-          id: String(authorEntity.id),
-          name: authorEntity.attributes.name,
-          profileImage: mapStrapiMedia(authorEntity.attributes.profileImage),
+          id: String(entity.author.id),
+          name: entity.author.name,
+          profileImage: mapStrapiMedia(entity.author.profileImage),
         }
       : { id: "unknown", name: "Thistle Network" },
     likeCount: 0,
@@ -57,23 +57,24 @@ export function mapStrapiNewsPost(
 export function mapStrapiGalleryAlbum(
   entity: StrapiEntity<StrapiGalleryAlbumAttributes>
 ): GalleryAlbum {
-  const { id, attributes } = entity;
+  const { id, documentId } = entity;
 
   return {
     id: String(id),
-    title: attributes.title,
-    date: attributes.date,
-    tagline: attributes.tagline,
-    location: attributes.location,
-    attendeeCount: attributes.attendeeCount,
-    coverImage: mapStrapiMedia(attributes.coverImage),
-    images: (attributes.images?.data ?? []).map((image) => ({
+    uid: documentId,
+    title: entity.title,
+    date: entity.date,
+    tagline: entity.tagline,
+    location: entity.location,
+    attendeeCount: entity.attendeeCount,
+    coverImage: mapStrapiMedia(entity.coverImage),
+    images: (entity.images?.data ?? []).map((image) => ({
       id: String(image.id),
-      url: image.attributes.url,
-      width: image.attributes.width,
-      height: image.attributes.height,
-      alternativeText: image.attributes.alternativeText,
-      caption: image.attributes.caption,
+      url: image.url,
+      width: image.width,
+      height: image.height,
+      alternativeText: image.alternativeText,
+      caption: image.caption,
     })),
   };
 }

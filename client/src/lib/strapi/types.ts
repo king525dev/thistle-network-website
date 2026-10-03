@@ -28,8 +28,8 @@ export type StrapiMedia = {
 
 export type StrapiEntity<TAttributes> = {
   id: number;
-  attributes: TAttributes;
-};
+  documentId: string;
+} & TAttributes;
 
 export type StrapiCollectionResponse<TAttributes> = {
   data: StrapiEntity<TAttributes>[];
@@ -45,9 +45,7 @@ export type StrapiNewsPostAttributes = {
   publishedAt: string;
   pinned?: boolean;
   image?: StrapiMedia;
-  author?: {
-    data: StrapiEntity<{ name: string; profileImage?: StrapiMedia }> | null;
-  };
+  author?: StrapiEntity<{ name: string; profileImage?: StrapiMedia }> | null;
 };
 
 export type StrapiGalleryAlbumAttributes = {

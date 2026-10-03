@@ -42,6 +42,16 @@ export async function strapiFetch<T>(
   });
 
   if (!res.ok) {
+
+    const errorBody = await res.text();
+
+    console.error("Strapi error:", {
+      status: res.status,
+      statusText: res.statusText,
+      URL,
+      body: errorBody,
+    });
+
     throw new Error(`Strapi request failed: ${res.status} ${res.statusText}`);
   }
 

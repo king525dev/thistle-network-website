@@ -10,6 +10,7 @@ type NewsFeedProps = {
  * all per-post UI lives in `NewsPost`.
  */
 export default function NewsFeed({ posts }: NewsFeedProps) {
+
   if (posts.length === 0) {
     return <p className="feed-empty">No news yet. Check back soon for updates from the network.</p>;
   }

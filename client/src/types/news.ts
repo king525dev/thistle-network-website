@@ -8,6 +8,7 @@ export type NewsAuthor = {
 
 export type NewsPost = {
   id: string;
+  uid: string;
   author: NewsAuthor;
   publishedAt: string;
   title?: string;
