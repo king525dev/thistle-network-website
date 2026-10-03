@@ -19,12 +19,7 @@ export type StrapiMediaAttributes = {
   caption?: string;
 };
 
-export type StrapiMedia = {
-  data: {
-    id: number;
-    attributes: StrapiMediaAttributes;
-  } | null;
-};
+export type StrapiMedia = StrapiEntity<StrapiMediaAttributes | null>
 
 export type StrapiEntity<TAttributes> = {
   id: number;

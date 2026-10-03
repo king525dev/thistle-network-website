@@ -27,8 +27,6 @@ export async function getNewsPosts(): Promise<NewsPost[]> {
   const res = await strapiFetch<StrapiCollectionResponse<StrapiNewsPostAttributes>>(
     "/api/news-posts?populate[image]=true&populate[author][populate][profileImage]=true"
   );
-
-  console.log(res.data)
   
   return res.data.map(mapStrapiNewsPost);
 }

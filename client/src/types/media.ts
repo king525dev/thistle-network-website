@@ -7,6 +7,7 @@
  */
 export type Media = {
   id: string;
+  uid: string;
   url: string;
   width?: number;
   height?: number;

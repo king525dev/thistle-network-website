@@ -8,6 +8,8 @@ import type {
   StrapiGalleryAlbumAttributes,
 } from "./types";
 
+const STRAPI_URL = process.env.STRAPI_URL;
+
 /**
  * Every function in this file takes a raw Strapi shape in and returns a
  * clean application type out. Components should never do this
@@ -16,15 +18,16 @@ import type {
  */
 
 export function mapStrapiMedia(media: StrapiMedia | undefined): Media | undefined {
-  if (!media?.data) return undefined;
-  const { id, attributes } = media.data;
+  if (!media) return undefined;
+  const { id, documentId } = media;
   return {
     id: String(id),
-    url: attributes.url,
-    width: attributes.width,
-    height: attributes.height,
-    alternativeText: attributes.alternativeText,
-    caption: attributes.caption,
+    uid: documentId,
+    url: STRAPI_URL + media.url,
+    width: media.width,
+    height: media.height,
+    alternativeText: media.alternativeText,
+    caption: media.caption,
   };
 }
 
@@ -70,6 +73,7 @@ export function mapStrapiGalleryAlbum(
     coverImage: mapStrapiMedia(entity.coverImage),
     images: (entity.images?.data ?? []).map((image) => ({
       id: String(image.id),
+      uid: image.documentId,
       url: image.url,
       width: image.width,
       height: image.height,
