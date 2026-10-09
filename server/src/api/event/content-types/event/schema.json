@@ -11,6 +11,10 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
     "title": {
       "type": "string"
     },
@@ -20,11 +24,33 @@
     "description": {
       "type": "text"
     },
-    "date": {
-      "type": "date"
+    "startDate": {
+      "type": "datetime"
     },
-    "time": {
-      "type": "time"
+    "endDate": {
+      "type": "datetime"
+    },
+    "registrationUrl": {
+      "type": "string"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "eventStatus": {
+      "type": "enumeration",
+      "enum": [
+        "upcoming",
+        "next",
+        "previous",
+        "past"
+      ]
     },
     "gallery_album": {
       "type": "relation",

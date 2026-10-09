@@ -485,11 +485,17 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    coverImage: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    date: Schema.Attribute.Date;
     description: Schema.Attribute.Text;
+    endDate: Schema.Attribute.DateTime;
+    eventStatus: Schema.Attribute.Enumeration<
+      ['upcoming', 'next', 'previous', 'past']
+    >;
     gallery_album: Schema.Attribute.Relation<
       'oneToOne',
       'api::gallery-album.gallery-album'
@@ -499,7 +505,9 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     location: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    time: Schema.Attribute.Time;
+    registrationUrl: Schema.Attribute.String;
+    slug: Schema.Attribute.UID<'title'>;
+    startDate: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
