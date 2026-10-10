@@ -1,28 +1,19 @@
 import qs from 'qs';
 import type { NewsPost } from "@/types/news";
 import type { GalleryAlbum } from "@/types/gallery";
+import type { Event } from "@/types/event";
 import { strapiFetch } from "./client";
-import { mapStrapiGalleryAlbum, mapStrapiNewsPost } from "./mappers";
+import { 
+  mapStrapiGalleryAlbum, 
+  mapStrapiNewsPost ,
+  mapStrapiEvent
+} from "./mappers";
 import type {
   StrapiCollectionResponse,
   StrapiGalleryAlbumAttributes,
   StrapiNewsPostAttributes,
+  StrapiEventAttributes
 } from "./types";
-
-/**
- * These are the functions a route will eventually call instead of
- * importing mock data, e.g.:
- *
- *   // before
- *   import { mockNewsPosts } from "@/data/mock/news";
- *
- *   // after
- *   import { getNewsPosts } from "@/lib/strapi/queries";
- *   const posts = await getNewsPosts();
- *
- * `NewsFeed`, `NewsPost`, `GalleryAlbum`, etc. don't change either way -
- * they only ever see `NewsPost[]` / `GalleryAlbum[]`.
- */
 
 export async function getNewsPosts(): Promise<NewsPost[]> {
 
@@ -61,4 +52,20 @@ export async function getGalleryAlbums(): Promise<GalleryAlbum[]> {
     `/api/gallery-albums?${galleryQuery}`
   );
   return res.data.map(mapStrapiGalleryAlbum);
+}
+
+export async function getEvents(): Promise<Event[]> {
+
+  const eventQuery = qs.stringify({
+    populate: {
+      coverImage: true,
+    },
+  }, {
+    encodeValuesOnly: true,
+  });
+
+  const res = await strapiFetch<StrapiCollectionResponse<StrapiEventAttributes>>(
+    `/api/event?${eventQuery}`
+  );
+  return res.data.map(mapStrapiEvent);
 }

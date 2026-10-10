@@ -1,11 +1,13 @@
 import type { Media } from "@/types/media";
 import type { NewsPost } from "@/types/news";
 import type { GalleryAlbum } from "@/types/gallery";
+import type { Event, EventStatus } from "@/types/event";
 import type {
   StrapiEntity,
   StrapiMedia,
   StrapiNewsPostAttributes,
   StrapiGalleryAlbumAttributes,
+  StrapiEventAttributes
 } from "./types";
 
 const STRAPI_URL = process.env.STRAPI_URL;
@@ -62,8 +64,6 @@ export function mapStrapiGalleryAlbum(
 ): GalleryAlbum {
   const { id, documentId } = entity;
 
-  console.log(entity.images)
-
   return {
     id: String(id),
     uid: documentId,
@@ -82,5 +82,40 @@ export function mapStrapiGalleryAlbum(
       alternativeText: image.alternativeText,
       caption: image.caption,
     })),
+  };
+}
+
+function mapEventStatus(status: string | undefined): EventStatus {
+  switch(status){
+    case "upcoming":
+      return "upcoming";
+    case "next":
+      return "next";
+    case "previous":
+      return "previous";
+    case "past":
+      return "past";
+    default:
+      return "upcoming";
+
+  }
+}
+
+export function mapStrapiEvent(
+  entity: StrapiEntity<StrapiEventAttributes>
+): Event {
+  const { id, documentId } = entity;
+
+  return {
+    id: String(id),
+    uid: documentId,
+    title: entity.title,
+    location: entity.location,
+    startDate: entity.startDate,
+    endDate: entity.endDate,
+    description: entity.description,
+    registrationUrl: entity.registrationUrl,
+    status: mapEventStatus(entity.status),
+    coverImage: mapStrapiMedia(entity.coverImage),
   };
 }

@@ -52,3 +52,15 @@ export type StrapiGalleryAlbumAttributes = {
   coverImage?: StrapiMedia;
   images?: StrapiEntity<StrapiMediaAttributes>[];
 };
+
+export type StrapiEventAttributes = {
+  id: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate?: string;
+  coverImage?: StrapiMedia;
+  location?: string;
+  registrationUrl?: string;
+  status?: string;
+};
