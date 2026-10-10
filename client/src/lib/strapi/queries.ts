@@ -54,18 +54,30 @@ export async function getGalleryAlbums(): Promise<GalleryAlbum[]> {
   return res.data.map(mapStrapiGalleryAlbum);
 }
 
-export async function getEvents(): Promise<Event[]> {
+export async function getAllEvents(): Promise<Event[]> {
 
   const eventQuery = qs.stringify({
     populate: {
       coverImage: true,
-    },
+    }
   }, {
     encodeValuesOnly: true,
   });
 
   const res = await strapiFetch<StrapiCollectionResponse<StrapiEventAttributes>>(
-    `/api/event?${eventQuery}`
+    `/api/events?${eventQuery}`
   );
   return res.data.map(mapStrapiEvent);
+}
+
+export async function getNextEvent(): Promise<Event | undefined> {
+  const events = await getAllEvents();
+  console.log("yo")
+  console.log(events.find((event) => event.status === "next"))
+  return events.find((event) => event.status === "next");
+}
+
+export async function getPreviousEvent(): Promise<Event | undefined> {
+  const events = await getAllEvents();
+  return events.find((event) => event.status === "previous");
 }

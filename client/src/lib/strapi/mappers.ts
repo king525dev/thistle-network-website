@@ -115,7 +115,7 @@ export function mapStrapiEvent(
     endDate: entity.endDate,
     description: entity.description,
     registrationUrl: entity.registrationUrl,
-    status: mapEventStatus(entity.status),
+    status: mapEventStatus(entity.eventStatus),
     coverImage: mapStrapiMedia(entity.coverImage),
   };
 }

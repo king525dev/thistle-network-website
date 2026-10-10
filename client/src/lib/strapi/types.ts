@@ -62,5 +62,5 @@ export type StrapiEventAttributes = {
   coverImage?: StrapiMedia;
   location?: string;
   registrationUrl?: string;
-  status?: string;
+  eventStatus?: string;
 };

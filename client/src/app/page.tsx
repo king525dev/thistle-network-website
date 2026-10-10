@@ -5,13 +5,16 @@ import About from "@/components/home/About";
 import Activities from "@/components/home/Activities";
 import FAQ from "@/components/home/FAQ";
 import Contact from "@/components/home/Contact";
-import { getUpcomingEvent, getPastEvent, mockEvents } from "@/data/mock/events";
 import { mockFaqItems } from "@/data/mock/faq";
 import { siteConfig } from "@/data/mock/site";
+import {
+  getNextEvent,
+  getPreviousEvent
+ } from "@/lib/strapi/queries";
 
-export default function HomePage() {
-  const upcomingEvent = getUpcomingEvent(mockEvents);
-  const pastEvent = getPastEvent(mockEvents);
+export default async function HomePage() {
+  const upcomingEvent = await getNextEvent();
+  const pastEvent = await getPreviousEvent();
 
   return (
     <>

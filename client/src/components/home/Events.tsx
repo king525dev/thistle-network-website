@@ -50,6 +50,19 @@ export default function Events({ upcomingEvent, pastEvent }: EventsProps) {
                 )}
               </div>
               <p className="desc">{upcomingEvent.description}</p>
+              {upcomingEvent.coverImage && (
+                <div className="gallery-preview">
+                  <Link href="/gallery">
+                    <Image
+                      src={upcomingEvent.coverImage.url}
+                      alt={upcomingEvent.coverImage.alternativeText ?? ""}
+                      width={upcomingEvent.coverImage.width ?? 700}
+                      height={upcomingEvent.coverImage.height ?? 900}
+                      unoptimized
+                    />
+                  </Link>
+                </div>
+              )}
               <Button href={upcomingEvent.registrationUrl ?? "/#registration"}>
                 Register to attend
               </Button>
@@ -65,14 +78,14 @@ export default function Events({ upcomingEvent, pastEvent }: EventsProps) {
               <span className="a-tag past-tag">Last event</span>
               <h3>{pastEvent.title}</h3>
               <p className="recap">{pastEvent.description}</p>
-              {pastEvent.image && (
+              {pastEvent.coverImage && (
                 <div className="gallery-preview">
                   <Link href="/gallery">
                     <Image
-                      src={pastEvent.image.url}
-                      alt={pastEvent.image.alternativeText ?? ""}
-                      width={pastEvent.image.width ?? 700}
-                      height={pastEvent.image.height ?? 900}
+                      src={pastEvent.coverImage.url}
+                      alt={pastEvent.coverImage.alternativeText ?? ""}
+                      width={pastEvent.coverImage.width ?? 700}
+                      height={pastEvent.coverImage.height ?? 900}
                       unoptimized
                     />
                   </Link>
