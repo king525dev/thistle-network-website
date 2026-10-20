@@ -19,7 +19,6 @@
             --green: #4CAF50;
             --mono: #8A7B6B;
             --white: #FFFFFF;
-            --shadow: 0 10px 30px -10px rgba(0,0,0,0.15);
             --nav-height: 76px;
         }
 
@@ -33,7 +32,6 @@
             color: var(--ink);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            /* Base paper texture */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
         }
 
@@ -89,21 +87,29 @@
         .page-header p { font-size: 18px; color: #555; }
 
         /* =========================================
-           Camera Roll Masonry Layout
+           Gallery Container
            ========================================= */
         .gallery-container {
-            max-width: 1300px; /* Wider to allow more columns */
+            max-width: 1200px; 
             margin: 0 auto;
             padding: 20px 20px 100px;
-            /* Faint 2010s digital grid background */
-            background-image: 
-                linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
-            background-size: 20px 20px;
         }
 
-        .album-section {
-            margin-bottom: 80px;
+        /* =========================================
+           iOS 8 Skeuomorphic Album Wrapper
+           ========================================= */
+        .album-wrapper {
+            background: #E4E4E4; /* iOS 8 table view grey */
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 60px;
+            
+            /* Skeuomorphic depth: inner shadow for recessed screen, outer drop shadow */
+            box-shadow: 
+                inset 0 2px 8px rgba(0,0,0,0.08),
+                inset 0 1px 1px rgba(0,0,0,0.15),
+                0 10px 25px -5px rgba(0,0,0,0.1);
+            border: 1px solid #D1D1D1;
         }
 
         /* Album Header */
@@ -113,43 +119,41 @@
             align-items: baseline;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            padding-bottom: 12px;
+            margin-bottom: 16px;
+            padding: 0 4px;
         }
         .album-header h2 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 26px;
+            font-size: 24px;
             letter-spacing: -0.02em;
             color: var(--ink);
         }
         .album-meta {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--mono);
         }
 
-        /* The Masonry Columns */
+        /* Dense Masonry Camera Roll */
         .masonry-grid {
             column-count: 4;
-            column-gap: 16px;
+            column-gap: 3px; /* Extremely tight gap */
         }
-        @media (max-width: 1024px) { .masonry-grid { column-count: 3; } }
-        @media (max-width: 768px) { .masonry-grid { column-count: 2; } }
-        @media (max-width: 480px) { .masonry-grid { column-count: 1; } }
+        @media (max-width: 900px) { .masonry-grid { column-count: 3; } }
+        @media (max-width: 650px) { .masonry-grid { column-count: 2; } }
+        @media (max-width: 450px) { .masonry-grid { column-count: 1; } }
 
-        /* 2010s Camera Roll Photo Frame */
+        /* Individual Photos with Subtle Skeuomorphism */
         .photo-frame {
             break-inside: avoid;
-            margin-bottom: 16px;
-            background: #F9F9F9; /* Slightly cooler white for the screen bezel */
-            padding: 4px; /* Creates the screen bezel effect */
-            border-radius: 8px; /* iOS 8 slightly rounded corners */
-            /* Skeuomorphic inset highlight + drop shadow */
+            margin-bottom: 3px; /* Extremely tight gap */
+            background: #FAFAFA; /* Thin bezel */
+            padding: 3px;
+            border-radius: 6px;
+            /* Subtle depth */
             box-shadow: 
-                inset 0 0 0 1px rgba(255, 255, 255, 0.8),
-                inset 0 0 4px rgba(0,0,0,0.05),
-                0 6px 15px -4px rgba(0,0,0,0.1);
+                0 2px 4px rgba(0,0,0,0.1),
+                inset 0 0 0 1px rgba(255,255,255,0.8);
             border: 1px solid rgba(0,0,0,0.06);
             overflow: hidden;
             cursor: pointer;
@@ -160,54 +164,68 @@
         .photo-frame:hover {
             transform: translateY(-2px);
             box-shadow: 
-                inset 0 0 0 1px rgba(255, 255, 255, 0.9),
-                inset 0 0 4px rgba(0,0,0,0.05),
-                0 10px 20px -4px rgba(0,0,0,0.15);
+                0 6px 12px rgba(0,0,0,0.15),
+                inset 0 0 0 1px rgba(255,255,255,1);
+            z-index: 10;
         }
 
         .photo-frame img {
             display: block;
             width: 100%;
             height: auto;
-            border-radius: 4px; /* Inner image rounding */
-            /* Classic vintage filter + slight glass glare simulation */
+            border-radius: 3px; /* Inner image rounding */
+            /* Vintage filter */
             filter: sepia(0.25) contrast(0.95) brightness(1.05);
             transition: filter 0.3s ease;
         }
 
         .photo-frame:hover img {
-            filter: sepia(0.15) contrast(1.0) brightness(1.08); /* Reveals color slightly on hover */
+            filter: sepia(0.15) contrast(1.0) brightness(1.08);
         }
 
-        /* Optional glare overlay */
+        /* Subtle Glass Glare Overlay */
         .photo-frame::after {
             content: '';
             position: absolute;
-            top: 4px; left: 4px; right: 4px; bottom: 4px;
-            border-radius: 4px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 40%);
+            top: 3px; left: 3px; right: 3px; bottom: 3px;
+            border-radius: 3px;
+            background: linear-gradient(
+                135deg, 
+                rgba(255,255,255,0.2) 0%, 
+                rgba(255,255,255,0) 40%
+            );
             pointer-events: none;
+            z-index: 2;
         }
 
-        /* "View Full Album" Link */
+        /* =========================================
+           Album Footer & Standard CTA Button
+           ========================================= */
         .album-footer {
             margin-top: 16px;
             text-align: right;
+            padding: 0 4px;
         }
-        .album-footer a {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--purple);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+
+        .album-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            transition: color 0.2s;
+            gap: 9px;
+            padding: 10px 22px;
+            border: 1px solid var(--purple);
+            border-radius: 999px;
+            color: var(--white);
+            background: var(--purple);
+            font-size: 13.5px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
-        .album-footer a:hover { color: var(--green); }
+
+        .album-btn:hover {
+            color: var(--purple);
+            background: transparent;
+        }
 
         /* =========================================
            Footer
@@ -244,10 +262,11 @@
             .footer-main { grid-template-columns: 1fr; }
             .footer-bottom { flex-direction: column; text-align: center; }
             .album-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .album-footer { text-align: center; }
         }
 
         /* =========================================
-           Lightbox (Matching the 2010s vibe)
+           Lightbox
            ========================================= */
         .lightbox {
             position: fixed; inset: 0; background: rgba(0,0,0,0.9);
@@ -258,7 +277,9 @@
         .lightbox img {
             max-width: 95vw; max-height: 90vh; 
             border-radius: 8px;
-            box-shadow: 0 0 0 6px #222, 0 20px 50px rgba(0,0,0,0.8);
+            box-shadow: 
+                0 0 0 6px #222,
+                0 20px 50px rgba(0,0,0,0.8);
         }
         .lightbox-close {
             position: absolute; top: 30px; right: 30px;
@@ -368,7 +389,7 @@
 
     <script>
         /* =========================================
-           Mock Data (Matches Strapi Schema)
+           Mock Data
            ========================================= */
         const albums = [
             {
@@ -379,7 +400,6 @@
                 tagline: "60+ attendees",
                 location: "Glasgow",
                 fullAlbumLink: "#",
-                // Mixed aspect ratios for masonry
                 images: [
                     "https://picsum.photos/seed/thistle-event-a/800/1100",
                     "https://picsum.photos/seed/thistle-event-b/800/600",
@@ -431,7 +451,10 @@
 
         albums.forEach(album => {
             const section = document.createElement('section');
-            section.className = 'album-section';
+            section.className = 'album-wrapper'; 
+            
+            // Limit to 7 images
+            const displayImages = album.images.slice(0, 7);
             
             section.innerHTML = `
                 <div class="album-header">
@@ -439,14 +462,14 @@
                     <span class="album-meta">${album.date} · ${album.location}</span>
                 </div>
                 <div class="masonry-grid">
-                    ${album.images.map(img => `
+                    ${displayImages.map(img => `
                         <div class="photo-frame">
                             <img src="${img}" alt="${album.title} photo" loading="lazy" class="lightbox-trigger">
                         </div>
                     `).join('')}
                 </div>
                 <div class="album-footer">
-                    <a href="${album.fullAlbumLink}">See Full Album →</a>
+                    <a href="${album.fullAlbumLink}" class="album-btn">See Full Album →</a>
                 </div>
             `;
             
