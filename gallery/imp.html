@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thistle Network | Gallery Concepts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           Design Tokens
+           ========================================= */
+        :root {
+            --ink: #1A1A1A;
+            --paper: #F7F5F0;
+            --paper-dim: #EBE7DE;
+            --purple: #5B2C8D;
+            --green: #4CAF50;
+            --mono: #8A7B6B;
+            --white: #FFFFFF;
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.15);
+            --nav-height: 76px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--paper);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        /* =========================================
+           Switcher UI
+           ========================================= */
+        .design-switcher {
+            display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+            padding: 20px; background: var(--ink);
+            position: sticky; top: 0; z-index: 2000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .design-switcher button {
+            padding: 10px 20px; border-radius: 100px; border: 1px solid var(--mono);
+            background: transparent; color: var(--white); cursor: pointer;
+            font-family: 'JetBrains Mono', monospace; font-size: 12px;
+            transition: all 0.2s;
+        }
+        .design-switcher button.active, .design-switcher button:hover {
+            background: var(--purple); border-color: var(--purple);
+        }
+
+        /* =========================================
+           Shared Navigation & Header
+           ========================================= */
+        .site-nav {
+            position: sticky;
+            top: 73px; /* Below switcher */
+            z-index: 1000;
+            background: rgba(247,245,240,.94);
+            border-bottom: 1px solid rgba(91,44,141,.18);
+            box-shadow: 0 4px 20px rgba(26,26,26,.05);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+        .site-nav-inner {
+            width: min(1280px, calc(100% - 48px)); 
+            min-height: var(--nav-height); margin-inline: auto;
+            display: flex; align-items: center; justify-content: space-between; gap: 30px;
+        }
+        .nav-brand { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); }
+        .nav-brand svg { width: 38px; height: 38px; }
+        .nav-brand span { display: flex; gap: 4px; font: 700 20px/1 'Space Grotesk', sans-serif; letter-spacing: -.055em; }
+        .nav-brand b { color: var(--purple); }
+        .nav-brand strong { color: var(--green); }
+        .site-nav-links { display: flex; align-items: center; gap: clamp(14px, 2.2vw, 32px); }
+        .site-nav-links a { color: #433d46; text-decoration: none; font-size: 13px; font-weight: 600; transition: color .2s ease; }
+        .site-nav-links a:hover, .site-nav-links a.active { color: var(--purple); }
+        .site-nav-links .nav-register {
+            display: inline-flex; align-items: center; gap: 9px; padding: 11px 18px;
+            border: 1px solid var(--purple); border-radius: 999px; color: white; background: var(--purple);
+            transition: all .2s ease;
+        }
+        .site-nav-links .nav-register:hover { color: var(--purple); background: transparent; }
+
+        .page-header {
+            padding: 80px 20px 40px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .eyebrow {
+            font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.1em; color: var(--mono);
+            margin-bottom: 16px; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+        .page-header h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(36px, 5vw, 56px); letter-spacing: -0.03em; margin-bottom: 16px; line-height: 1.1; }
+        .page-header p { font-size: 18px; color: #555; }
+
+        /* =========================================
+           Concept Containers
+           ========================================= */
+        .concept-container { display: none; padding: 40px 20px 100px; max-width: 1200px; margin: 0 auto; }
+        .concept-container.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           OPTION 1: Old Site Remodeled (Masonry)
+           ========================================= */
+        .opt1-album { margin-bottom: 80px; }
+        .opt1-head {
+            display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px;
+            margin-bottom: 24px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 16px;
+        }
+        .opt1-head h2 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; letter-spacing: -0.02em; }
+        .opt1-meta { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mono); }
+        
+        .opt1-masonry { column-count: 3; column-gap: 20px; }
+        @media (max-width: 900px) { .opt1-masonry { column-count: 2; } }
+        @media (max-width: 600px) { .opt1-masonry { column-count: 1; } }
+        
+        .opt1-masonry img {
+            width: 100%; border-radius: 8px; margin-bottom: 20px; break-inside: avoid;
+            filter: sepia(0.3) contrast(0.9) brightness(1.05);
+            transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;
+        }
+        .opt1-masonry img:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+        /* =========================================
+           OPTION 2: Modern Grid
+           ========================================= */
+        .opt2-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 40px; }
+        .opt2-card {
+            background: var(--white); border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.08); transition: transform 0.3s;
+            display: flex; flex-direction: column;
+        }
+        .opt2-card:hover { transform: translateY(-5px); }
+        .opt2-cover { width: 100%; aspect-ratio: 4/3; overflow: hidden; position: relative; }
+        .opt2-cover img { width: 100%; height: 100%; object-fit: cover; filter: sepia(0.3) contrast(0.9); transition: transform 0.5s; }
+        .opt2-card:hover .opt2-cover img { transform: scale(1.05); }
+        
+        .opt2-content { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; }
+        .opt2-meta { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--mono); margin-bottom: 8px; display: block; }
+        .opt2-content h2 { font-family: 'Space Grotesk', sans-serif; font-size: 24px; margin-bottom: 12px; }
+        .opt2-content p { font-size: 15px; color: #666; margin-bottom: 24px; flex-grow: 1; }
+        
+        .opt2-thumbs { display: flex; gap: 8px; margin-bottom: 24px; }
+        .opt2-thumbs img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; filter: grayscale(40%); }
+        
+        .opt2-btn {
+            display: inline-block; text-align: center; padding: 12px; border-radius: 100px;
+            background: var(--paper-dim); color: var(--ink); font-weight: 600; text-decoration: none;
+            transition: background 0.2s;
+        }
+        .opt2-btn:hover { background: var(--purple); color: var(--white); }
+
+        /* =========================================
+           OPTION 3: Vintage Scrapbook
+           ========================================= */
+        .opt3-album { margin-bottom: 100px; position: relative; }
+        
+        .opt3-header-wrap { display: flex; justify-content: center; margin-bottom: 50px; position: relative; }
+        .opt3-title-tape {
+            background: var(--white); padding: 15px 40px; transform: rotate(-1deg);
+            box-shadow: 4px 6px 15px rgba(0,0,0,0.1); position: relative;
+            text-align: center;
+        }
+        .opt3-title-tape::before {
+            content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(2deg);
+            width: 100px; height: 25px; background: rgba(235, 231, 222, 0.9);
+            border-left: 1px dashed rgba(0,0,0,0.1); border-right: 1px dashed rgba(0,0,0,0.1);
+        }
+        .opt3-title-tape h2 { font-family: 'Space Grotesk', sans-serif; font-size: 32px; margin-bottom: 8px; }
+        .opt3-title-tape .meta { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mono); }
+
+        .opt3-grid {
+            display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;
+        }
+        .opt3-photo {
+            background: var(--white); padding: 12px 12px 45px 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative;
+            transition: transform 0.3s ease, z-index 0.1s;
+        }
+        .opt3-photo:nth-child(odd) { transform: rotate(-2deg); }
+        .opt3-photo:nth-child(even) { transform: rotate(3deg); }
+        .opt3-photo:hover { transform: scale(1.05) rotate(0deg); z-index: 10; }
+        
+        .opt3-photo::after {
+            content: attr(data-caption);
+            position: absolute; bottom: 15px; left: 15px;
+            font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mono);
+        }
+        .opt3-photo img { width: 100%; height: 100%; object-fit: cover; filter: sepia(0.3) contrast(0.9) brightness(1.05); }
+        
+        .opt3-full-album-btn {
+            display: block; width: max-content; margin: 40px auto 0;
+            background: var(--purple); color: var(--white); padding: 14px 32px;
+            font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px;
+            text-decoration: none; transform: rotate(1deg); box-shadow: 0 5px 15px rgba(91,44,141,0.3);
+            transition: all 0.2s;
+        }
+        .opt3-full-album-btn:hover { transform: rotate(0deg) scale(1.05); background: #4A2373; }
+
+        /* =========================================
+           OPTION 4: Old iPhone Style (iOS 8/9)
+           ========================================= */
+        .opt4-wrapper {
+            background: #f2f2f2; border-radius: 12px; padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+        }
+        .opt4-nav {
+            display: flex; justify-content: space-between; padding: 10px 10px 20px 10px;
+            font-weight: 600; color: #007aff; font-size: 16px;
+        }
+        .opt4-album { margin-bottom: 30px; }
+        .opt4-album-head {
+            display: flex; justify-content: space-between; align-items: baseline; padding: 0 10px 10px 10px;
+        }
+        .opt4-album-head h2 { font-size: 20px; font-weight: 600; color: #000; margin: 0; }
+        .opt4-album-head a { color: #007aff; font-size: 15px; text-decoration: none; }
+        
+        .opt4-horizontal-scroll {
+            display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none;
+            padding-bottom: 10px;
+        }
+        .opt4-horizontal-scroll::-webkit-scrollbar { display: none; }
+        
+        .opt4-img {
+            flex: 0 0 auto; width: 33vw; max-width: 200px; aspect-ratio: 1;
+            object-fit: cover; border-radius: 2px; cursor: pointer;
+            transition: filter 0.2s;
+        }
+        .opt4-img:hover { filter: brightness(0.9); }
+        .opt4-album-meta {
+            font-size: 13px; color: #8e8e93; padding: 8px 10px 0 10px;
+        }
+
+        /* =========================================
+           Global Lightbox
+           ========================================= */
+        .lightbox {
+            position: fixed; inset: 0; background: rgba(26,26,26,0.95);
+            display: none; align-items: center; justify-content: center;
+            z-index: 3000; padding: 40px;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img {
+            max-width: 90vw; max-height: 85vh; border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .lightbox-close {
+            position: absolute; top: 30px; right: 30px;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); border: none; color: white;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+        .lightbox-close svg { width: 24px; height: 24px; }
+
+        /* =========================================
+           Footer (Reused from main site)
+           ========================================= */
+        .site-footer {
+            background-color: var(--ink); color: var(--white); padding: 80px 20px 40px;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        .footer-container { max-width: 1100px; margin: 0 auto; }
+        .footer-contact { text-align: center; margin-bottom: 60px; padding-bottom: 60px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .footer-contact .eyebrow { color: rgba(255, 255, 255, 0.5); justify-content: center; }
+        .contact-email { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 4vw, 48px); font-weight: 700; color: var(--white); text-decoration: none; border-bottom: 2px solid var(--green); padding-bottom: 8px; display: inline-block; margin-bottom: 30px; }
+        .social-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .social-btn { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.2); color: var(--white); text-decoration: none; font-weight: 500; font-size: 14px; transition: all 0.2s; }
+        .social-btn:hover { border-color: var(--white); background: rgba(255, 255, 255, 0.05); }
+        .social-btn svg { width: 16px; height: 16px; }
+        .footer-main { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+        .brand-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 16px; display: flex; gap: 8px; }
+        .brand-logo .thistle { color: #9C66D6; }
+        .brand-logo .network { color: var(--green); }
+        .brand-desc { color: rgba(255, 255, 255, 0.6); font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
+        .link-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.4); margin-bottom: 20px; }
+        .link-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .link-col a { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+        .link-col a:hover { color: var(--white); }
+        .footer-bottom { padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255, 255, 255, 0.4); }
+
+        @media (max-width: 850px) {
+            .footer-main { grid-template-columns: 1fr 1fr; }
+            .site-nav-links { display: none; } /* Simplified mobile nav for this demo */
+        }
+        @media (max-width: 600px) {
+            .footer-main { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Switcher -->
+    <div class="design-switcher">
+        <button onclick="switchDesign('opt1', event)">1. Remodeled Masonry</button>
+        <button onclick="switchDesign('opt2', event)">2. Modern Grid</button>
+        <button onclick="switchDesign('opt3', event)" class="active">3. Vintage Scrapbook</button>
+        <button onclick="switchDesign('opt4', event)">4. iOS 8 Photo App</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="site-nav">
+        <div class="site-nav-inner">
+            <a class="nav-brand" href="#">
+                <svg viewBox="0 0 100 100" aria-hidden="true">
+                    <defs><linearGradient id="navThistleGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#5B2C8D"/><stop offset="100%" stop-color="#4CAF50"/></linearGradient></defs>
+                    <path d="M40 30 Q50 15 60 30 Q65 45 60 55 Q50 65 40 55 Q35 45 40 30 Z" fill="url(#navThistleGrad)"/>
+                    <path d="M45 20 L50 10 L55 20 Z" fill="url(#navThistleGrad)"/>
+                    <path d="M50 55 L50 85" stroke="#4CAF50" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M50 75 Q30 75 20 60 Q35 65 50 70" fill="#4CAF50"/><path d="M50 75 Q70 75 80 60 Q65 65 50 70" fill="#4CAF50"/>
+                </svg>
+                <span><b>thistle</b><strong>network</strong></span>
+            </a>
+            <div class="site-nav-links">
+                <a href="#">About</a>
+                <a href="#" class="active">Gallery</a>
+                <a href="#">Events</a>
+                <a href="#">Contact</a>
+                <a class="nav-register" href="#">Register <span aria-hidden="true">↗</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="eyebrow">Gallery</div>
+        <h1>Moments from the network.</h1>
+        <p>A look back at insight days, socials and meet-ups from across Scotland — new photos go up after every event.</p>
+    </header>
+
+    <!-- =========================================
+         OPTION 1: Remodeled Masonry
+         ========================================= -->
+    <main id="opt1" class="concept-container">
+        <!-- Injected by JS -->
+    </main>
+
+    <!-- =========================================
+         OPTION 2: Modern Grid
+         ========================================= -->
+    <main id="opt2" class="concept-container">
+        <div class="opt2-grid">
+            <!-- Injected by JS -->
+        </div>
+    </main>
+
+    <!-- =========================================
+         OPTION 3: Vintage Scrapbook
+         ========================================= -->
+    <main id="opt3" class="concept-container active">
+        <!-- Injected by JS -->
+    </main>
+
+    <!-- =========================================
+         OPTION 4: iOS 8 App
+         ========================================= -->
+    <main id="opt4" class="concept-container">
+        <div class="opt4-wrapper">
+            <div class="opt4-nav">
+                <span>Collections</span>
+                <span>Select</span>
+            </div>
+            <!-- Injected by JS -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-contact">
+                <div class="eyebrow">Get in touch</div>
+                <a href="mailto:general@thistle.network" class="contact-email">general@thistle.network</a>
+                <div class="social-links">
+                    <a href="#" class="social-btn" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.96 3.77-1.96 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.45-2.16 2.96V21H9z"/></svg>
+                        LinkedIn
+                    </a>
+                    <a href="#" class="social-btn" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                        Instagram
+                    </a>
+                </div>
+            </div>
+            <div class="footer-main">
+                <div>
+                    <div class="brand-logo"><span class="thistle">Thistle</span><span class="network">Network</span></div>
+                    <p class="brand-desc">A community-led network for current and aspiring apprentices across Scotland.</p>
+                </div>
+                <div class="link-col">
+                    <h4>Network</h4>
+                    <ul>
+                        <li><a href="#">Aspiring apprentices</a></li>
+                        <li><a href="#">Current apprentices</a></li>
+                        <li><a href="#">Our aims</a></li>
+                    </ul>
+                </div>
+                <div class="link-col">
+                    <h4>Get Involved</h4>
+                    <ul>
+                        <li><a href="#">Register to join</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 The Thistle Network. All rights reserved.</span>
+                <span>Made by apprentices, for apprentices — Scotland.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <script>
+        /* =========================================
+           Mock Data (Matches Strapi Schema)
+           ========================================= */
+        const albums = [
+            {
+                id: "1",
+                uid: "glasgow-meetup-2026",
+                title: "Summer Meet-Up — Glasgow",
+                date: "28 June 2026",
+                tagline: "60+ attendees",
+                location: "Glasgow",
+                fullAlbumLink: "#",
+                images: [
+                    "https://picsum.photos/seed/thistle-event-a/800/1000",
+                    "https://picsum.photos/seed/thistle-event-b/800/600",
+                    "https://picsum.photos/seed/thistle-event-c/800/900",
+                    "https://picsum.photos/seed/thistle-event-d/800/700",
+                    "https://picsum.photos/seed/thistle-event-e/800/800"
+                ],
+                coverImage: "https://picsum.photos/seed/thistle-event-a/800/1000"
+            },
+            {
+                id: "2",
+                uid: "ey-insight-2026",
+                title: "Apprenticeship Insight Day — with EY",
+                date: "14 May 2026",
+                tagline: "Panel & Mock Interviews",
+                location: "Edinburgh",
+                fullAlbumLink: "#",
+                images: [
+                    "https://picsum.photos/seed/thistle-event-f/800/600",
+                    "https://picsum.photos/seed/thistle-event-g/800/1100",
+                    "https://picsum.photos/seed/thistle-event-h/800/800",
+                    "https://picsum.photos/seed/thistle-event-i/800/500"
+                ],
+                coverImage: "https://picsum.photos/seed/thistle-event-f/800/600"
+            },
+            {
+                id: "3",
+                uid: "financial-literacy-2026",
+                title: "Financial Literacy Workshop",
+                date: "2 April 2026",
+                tagline: "Budgeting & Saving",
+                location: "Dundee & Online",
+                fullAlbumLink: "#",
+                images: [
+                    "https://picsum.photos/seed/thistle-event-j/800/900",
+                    "https://picsum.photos/seed/thistle-event-k/800/600",
+                    "https://picsum.photos/seed/thistle-event-l/800/700"
+                ],
+                coverImage: "https://picsum.photos/seed/thistle-event-j/800/900"
+            }
+        ];
+
+        /* =========================================
+           Render Functions
+           ========================================= */
+
+        // Option 1: Masonry
+        function renderOpt1() {
+            const container = document.getElementById('opt1');
+            albums.forEach(album => {
+                const div = document.createElement('div');
+                div.className = 'opt1-album';
+                div.innerHTML = `
+                    <div class="opt1-head">
+                        <h2>${album.title}</h2>
+                        <span class="opt1-meta">${album.date} · ${album.location}</span>
+                    </div>
+                    <div class="opt1-masonry">
+                        ${album.images.map(img => `<img src="${img}" alt="${album.title}" class="lightbox-trigger">`).join('')}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Option 2: Modern Grid
+        function renderOpt2() {
+            const container = document.getElementById('opt2').querySelector('.opt2-grid');
+            albums.forEach(album => {
+                const card = document.createElement('article');
+                card.className = 'opt2-card';
+                card.innerHTML = `
+                    <div class="opt2-cover">
+                        <img src="${album.coverImage}" alt="${album.title}" class="lightbox-trigger">
+                    </div>
+                    <div class="opt2-content">
+                        <span class="opt2-meta">${album.date} · ${album.location}</span>
+                        <h2>${album.title}</h2>
+                        <p>${album.tagline || 'A memorable event from the Thistle Network.'}</p>
+                        <div class="opt2-thumbs">
+                            ${album.images.slice(0, 3).map(img => `<img src="${img}" alt="" class="lightbox-trigger">`).join('')}
+                        </div>
+                        <a href="${album.fullAlbumLink}" class="opt2-btn">View Full Album</a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Option 3: Vintage Scrapbook
+        function renderOpt3() {
+            const container = document.getElementById('opt3');
+            albums.forEach((album, index) => {
+                const div = document.createElement('div');
+                div.className = 'opt3-album';
+                
+                // Use first 3 images for the scrapbook layout
+                const scrapImages = album.images.slice(0, 4);
+                
+                div.innerHTML = `
+                    <div class="opt3-header-wrap">
+                        <div class="opt3-title-tape">
+                            <h2>${album.title}</h2>
+                            <div class="meta">${album.date} · ${album.location}</div>
+                        </div>
+                    </div>
+                    <div class="opt3-grid">
+                        ${scrapImages.map((img, i) => `
+                            <div class="opt3-photo" data-caption="${album.location.toUpperCase()} / ${album.date.split(' ')[2]}" style="width: ${i % 2 === 0 ? '280px' : '220px'}; height: ${i % 2 === 0 ? '340px' : '260px'};">
+                                <img src="${img}" alt="${album.title}" class="lightbox-trigger">
+                            </div>
+                        `).join('')}
+                    </div>
+                    <a href="${album.fullAlbumLink}" class="opt3-full-album-btn">See Full Album →</a>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Option 4: iOS App Style
+        function renderOpt4() {
+            const container = document.getElementById('opt4').querySelector('.opt4-wrapper');
+            albums.forEach(album => {
+                const div = document.createElement('div');
+                div.className = 'opt4-album';
+                div.innerHTML = `
+                    <div class="opt4-album-head">
+                        <h2>${album.title}</h2>
+                        <a href="${album.fullAlbumLink}">See All</a>
+                    </div>
+                    <div class="opt4-horizontal-scroll">
+                        ${album.images.map(img => `<img src="${img}" alt="" class="opt4-img lightbox-trigger">`).join('')}
+                    </div>
+                    <div class="opt4-album-meta">${album.date} · ${album.location}</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        /* =========================================
+           Lightbox Logic
+           ========================================= */
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        
+        function setupLightbox() {
+            document.querySelectorAll('.lightbox-trigger').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    lightboxImg.src = e.target.src;
+                    lightbox.classList.add('open');
+                });
+            });
+        }
+
+        document.getElementById('lightboxClose').addEventListener('click', () => lightbox.classList.remove('open'));
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) lightbox.classList.remove('open');
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+                lightbox.classList.remove('open');
+            }
+        });
+
+        /* =========================================
+           Switcher & Initialization
+           ========================================= */
+        function switchDesign(id, event) {
+            document.querySelectorAll('.concept-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            
+            document.querySelectorAll('.design-switcher button').forEach(btn => btn.classList.remove('active'));
+            if(event) event.target.classList.add('active');
+        }
+
+        // Initialize all views
+        renderOpt1();
+        renderOpt2();
+        renderOpt3();
+        renderOpt4();
+        setupLightbox();
+    </script>
+</body>
+</html>
