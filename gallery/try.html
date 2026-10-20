@@ -99,12 +99,10 @@
            iOS 8 Skeuomorphic Album Wrapper
            ========================================= */
         .album-wrapper {
-            background: #E4E4E4; /* iOS 8 table view grey */
+            background: #E4E4E4; 
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 60px;
-            
-            /* Skeuomorphic depth: inner shadow for recessed screen, outer drop shadow */
             box-shadow: 
                 inset 0 2px 8px rgba(0,0,0,0.08),
                 inset 0 1px 1px rgba(0,0,0,0.15),
@@ -137,65 +135,64 @@
         /* Dense Masonry Camera Roll */
         .masonry-grid {
             column-count: 4;
-            column-gap: 3px; /* Extremely tight gap */
+            column-gap: 3px;
         }
         @media (max-width: 900px) { .masonry-grid { column-count: 3; } }
         @media (max-width: 650px) { .masonry-grid { column-count: 2; } }
         @media (max-width: 450px) { .masonry-grid { column-count: 1; } }
 
-        /* Individual Photos with Subtle Skeuomorphism */
+        /* Individual Photos - Borderless with Skeuomorphism */
         .photo-frame {
             break-inside: avoid;
-            margin-bottom: 3px; /* Extremely tight gap */
-            background: #FAFAFA; /* Thin bezel */
-            padding: 3px;
-            border-radius: 6px;
-            /* Subtle depth */
-            box-shadow: 
-                0 2px 4px rgba(0,0,0,0.1),
-                inset 0 0 0 1px rgba(255,255,255,0.8);
-            border: 1px solid rgba(0,0,0,0.06);
+            margin-bottom: 3px;
+            border-radius: 4px; 
             overflow: hidden;
             cursor: pointer;
             position: relative;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .photo-frame:hover {
-            transform: translateY(-2px);
             box-shadow: 
-                0 6px 12px rgba(0,0,0,0.15),
-                inset 0 0 0 1px rgba(255,255,255,1);
-            z-index: 10;
+                0 2px 5px rgba(0,0,0,0.2),
+                inset 0 0 0 1px rgba(0,0,0,0.1);
+            transition: opacity 0.1s ease; 
         }
 
         .photo-frame img {
             display: block;
             width: 100%;
             height: auto;
-            border-radius: 3px; /* Inner image rounding */
-            /* Vintage filter */
+            border-radius: 4px;
             filter: sepia(0.25) contrast(0.95) brightness(1.05);
-            transition: filter 0.3s ease;
+            transition: filter 0.2s ease;
         }
 
-        .photo-frame:hover img {
-            filter: sepia(0.15) contrast(1.0) brightness(1.08);
+        /* iOS 8 Hover/Tap Effect */
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0);
+            z-index: 2;
+            transition: background 0.15s ease;
+            pointer-events: none; /* Crucial fix: Allows clicks to pass through */
         }
 
-        /* Subtle Glass Glare Overlay */
+        .photo-frame:hover::before,
+        .photo-frame:active::before {
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* Glass Glare Overlay */
         .photo-frame::after {
             content: '';
             position: absolute;
-            top: 3px; left: 3px; right: 3px; bottom: 3px;
-            border-radius: 3px;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 4px;
             background: linear-gradient(
                 135deg, 
-                rgba(255,255,255,0.2) 0%, 
+                rgba(255,255,255,0.15) 0%, 
                 rgba(255,255,255,0) 40%
             );
-            pointer-events: none;
-            z-index: 2;
+            pointer-events: none; /* Crucial fix: Allows clicks to pass through */
+            z-index: 3;
         }
 
         /* =========================================
@@ -464,7 +461,7 @@
                 <div class="masonry-grid">
                     ${displayImages.map(img => `
                         <div class="photo-frame">
-                            <img src="${img}" alt="${album.title} photo" loading="lazy" class="lightbox-trigger">
+                            <img src="${img}" alt="${album.title} photo" loading="lazy">
                         </div>
                     `).join('')}
                 </div>
@@ -483,15 +480,23 @@
         const lightboxImg = document.getElementById('lightboxImg');
         const lightboxClose = document.getElementById('lightboxClose');
 
-        document.querySelectorAll('.lightbox-trigger').forEach(img => {
-            img.addEventListener('click', (e) => {
-                lightboxImg.src = e.target.src;
-                lightboxImg.alt = e.target.alt;
+        // Attach click listener to the frame wrapper instead of the image itself
+        document.querySelectorAll('.photo-frame').forEach(frame => {
+            frame.addEventListener('click', () => {
+                const img = frame.querySelector('img');
+                if (!img) return;
+                
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
                 lightbox.classList.add('open');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
             });
         });
 
-        const closeLightbox = () => lightbox.classList.remove('open');
+        const closeLightbox = () => {
+            lightbox.classList.remove('open');
+            document.body.style.overflow = ''; // Restore background scrolling
+        };
         
         lightboxClose.addEventListener('click', closeLightbox);
         lightbox.addEventListener('click', (e) => {
