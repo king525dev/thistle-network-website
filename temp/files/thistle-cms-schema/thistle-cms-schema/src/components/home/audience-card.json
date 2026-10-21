@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_home_audience_cards",
+  "info": {
+    "displayName": "Audience Card",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "audienceKey": {
+      "type": "enumeration",
+      "enum": [
+        "aspiring",
+        "current"
+      ],
+      "required": true
+    },
+    "tag": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "benefits": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.text-item"
+    },
+    "ctaLabel": {
+      "type": "string"
+    },
+    "ctaUrl": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
