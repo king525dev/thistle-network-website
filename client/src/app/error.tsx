@@ -1,22 +1,14 @@
 "use client";
 
-import Button from "@/components/ui/Button";
-
-export default function GlobalError({
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+/** Shown when a route throws. The reset button retries rendering the route. */
+export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <div className="wrap" style={{ padding: "100px 0", textAlign: "center" }}>
+    <div className="container error-state">
       <h1>Something went wrong.</h1>
-      <p style={{ margin: "16px 0 28px" }}>
-        Please try again, or head back to the homepage.
-      </p>
-      <Button onClick={reset} variant="primary">
+      <p>Please try again, or head back to the homepage.</p>
+      <button className="btn btn-primary" type="button" onClick={reset}>
         Try again
-      </Button>
+      </button>
     </div>
   );
 }

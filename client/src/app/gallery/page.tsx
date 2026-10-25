@@ -1,27 +1,22 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/layout/PageHeader";
 import GalleryAlbum from "@/components/gallery/GalleryAlbum";
-import { getGalleryAlbums } from "@/lib/strapi/queries";
+import { getGalleryContent, getSiteContent } from "@/lib/content";
+import Footer from "@/components/layout/Footer";
 
-export const metadata: Metadata = {
-  title: "Gallery",
-  description:
-    "A look back at insight days, socials and meet-ups from across Scotland - new photos go up after every Thistle Network event.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { page } = await getGalleryContent();
+  return { title: page.seoTitle ?? "Gallery", description: page.seoDescription };
+}
 
 export default async function GalleryPage() {
-  const albums = await getGalleryAlbums();
+  const [{ page, albums }, site] = await Promise.all([getGalleryContent(), getSiteContent()]);
 
   return (
     <>
-      <PageHeader
-        eyebrow="Gallery"
-        title="Moments from the network."
-        description="A look back at insight days, socials and meet-ups from across Scotland — new photos go up after every event."
-      />
-
+      <PageHeader {...page.header} />
       <section className="gallery-page">
-        <div className="wrap gallery-albums">
+        <div className="container gallery-albums">
           {albums.length > 0 ? (
             albums.map((album) => <GalleryAlbum key={album.id} album={album} />)
           ) : (
@@ -29,6 +24,7 @@ export default async function GalleryPage() {
           )}
         </div>
       </section>
+      <Footer site={site} />
     </>
   );
 }
