@@ -1,5 +1,11 @@
 import type { Media } from "./media";
 
+export type GalleryEventSummary = {
+  id: string;
+  title: string;
+  startDate: string;
+};
+
 export type GalleryAlbum = {
   id: string;
   uid: string;
@@ -8,6 +14,8 @@ export type GalleryAlbum = {
   tagline?: string;
   location?: string;
   attendeeCount?: number;
+  event?: GalleryEventSummary;
+  fullAlbumLink?: string;
   coverImage?: Media;
   images: Media[];
 };

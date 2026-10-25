@@ -1,21 +1,21 @@
 import type { Media } from "./media";
 
-export type NewsAuthor = {
-  id: string;
-  name: string;
-  profileImage?: Media;
+export type NewsType = "Announcement" | "Event";
+
+export type NewsEmojiReaction = {
+  emoji: string;
+  count: number;
 };
 
 export type NewsPost = {
   id: string;
-  uid: string;
-  author: NewsAuthor;
-  publishedAt: string;
-  title?: string;
-  body: string;
-  image?: Media;
-  pinned?: boolean;
+  authorHandle: string;
+  avatar?: Media;
+  postedAt: string;
+  newsType: NewsType;
+  postBody: string;
+  postImage?: Media;
+  pinned: boolean;
   likeCount: number;
-  emojiCount: number;
-  emojis?: string[];
+  emojis: NewsEmojiReaction[];
 };
