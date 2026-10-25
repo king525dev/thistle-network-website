@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_shared_join_options",
+  "info": {
+    "displayName": "Join Option",
+    "icon": "cursor"
+  },
+  "options": {},
+  "attributes": {
+    "optionTitle": {
+      "type": "string",
+      "required": true
+    },
+    "optionDescription": {
+      "type": "text",
+      "required": false
+    },
+    "optionLink": {
+      "type": "string",
+      "required": true
+    },
+    "audienceKey": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "current",
+        "aspiring"
+      ]
+    }
+  },
+  "config": {}
+}
