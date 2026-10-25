@@ -1,39 +1,7 @@
 import type { Event } from "@/types/event";
 
-export const mockEvents: Event[] = [
-  {
-    id: "insight-night-edinburgh-2026",
-    title: "Apprentice Insight Night — Edinburgh",
-    description:
-      "An evening of speed-networking with employer partners, plus a short panel on switching sectors mid-apprenticeship. Open to registered apprentices only.",
-    startDate: "2026-09-24T18:00:00+01:00",
-    endDate: "2026-09-24T20:30:00+01:00",
-    location: "Venue confirmed on registration",
-    registrationUrl: "/#registration",
-    status: "upcoming",
-  },
-  {
-    id: "summer-meet-up-glasgow-2026",
-    title: "Summer Meet-Up — Glasgow",
-    description:
-      "Over 60 apprentices came together in Glasgow for an evening of speed-networking, giveaways, and easily the loudest quiz round of the year.",
-    startDate: "2026-06-28T18:00:00+01:00",
-    location: "Glasgow",
-    image: {
-      id: "event-summer-meetup-cover",
-      url: "https://picsum.photos/seed/thistle-event-a/700/900",
-      width: 700,
-      height: 900,
-      alternativeText: "Apprentices chatting at the Glasgow summer meet-up",
-    },
-    status: "past",
-  },
-];
-
-export function getUpcomingEvent(events: Event[] = mockEvents): Event | undefined {
-  return events.find((event) => event.status === "upcoming");
-}
-
-export function getPastEvent(events: Event[] = mockEvents): Event | undefined {
-  return events.find((event) => event.status === "past");
-}
+/**
+ * Fallback events. Start dates are placeholders chosen to match the uploaded
+ * design (replace them in Strapi). `coverImage` is a remote placeholder.
+ */
+export const mockEvents: Event[] = [{"id": "insight-night", "title": "Apprentice Insight Night — Edinburgh", "description": "An evening of speed-networking with employer partners, plus a short panel on switching sectors mid-apprenticeship.", "startDate": "2026-09-24T18:00:00.000Z", "location": "Edinburgh, Scotland", "registrationUrl": "#hero", "coverImage": {"id": "insight-night-cover", "url": "https://picsum.photos/seed/thistlevent1/800/1000", "width": 800, "height": 1000, "alternativeText": "Apprentice Insight Night — Edinburgh"}, "numberOfAttendees": 38, "cta": {"text": "Register to Attend", "link": "#hero"}, "status": "next", "gallery": undefined}, {"id": "summer-meetup", "title": "Summer Meet-Up — Glasgow", "description": "Over 60 apprentices came together in Glasgow for an evening of speed-networking, giveaways, and easily the loudest quiz round of the year.", "startDate": "2026-06-28T18:00:00.000Z", "location": "Glasgow, Scotland", "registrationUrl": "gallery.html", "coverImage": {"id": "summer-meetup-cover", "url": "https://picsum.photos/seed/thistlevent2/800/1000", "width": 800, "height": 1000, "alternativeText": "Summer Meet-Up — Glasgow"}, "numberOfAttendees": 64, "cta": {"text": "View Event Gallery", "link": "gallery.html"}, "status": "previous", "gallery": {"id": "glasgow-meetup-2026", "title": "Summer Meet-Up — Glasgow", "fullAlbumLink": "/gallery"}}, {"id": "financial-literacy", "title": "Financial Literacy Workshop", "description": "Budgeting, saving, and the basics of long-term investing for anyone who has just started earning.", "startDate": "2026-11-12T18:00:00.000Z", "location": "Online", "registrationUrl": "#hero", "coverImage": {"id": "financial-literacy-cover", "url": "https://picsum.photos/seed/thistlevent3/800/1000", "width": 800, "height": 1000, "alternativeText": "Financial Literacy Workshop"}, "numberOfAttendees": 21, "cta": {"text": "Register to Attend", "link": "#hero"}, "status": "upcoming", "gallery": undefined}] as Event[];
