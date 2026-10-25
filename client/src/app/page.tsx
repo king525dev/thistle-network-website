@@ -4,7 +4,7 @@ import Registration from "@/components/home/Registration";
 import Events from "@/components/home/Events";
 import About from "@/components/home/About";
 import FAQ from "@/components/home/FAQ";
-import Footer from "@/components/layout/Footer";
+import Footer from "../layout/Footer";
 import { getEvents, getHomeContent, getSiteContent } from "@/lib/content";
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/layout/PageHeader";
+import PageHeader from "../../layout/PageHeader";
 import NewsFeed from "@/components/news/NewsFeed";
 import { getNewsContent, getSiteContent } from "@/lib/content";
-import Footer from "@/components/layout/Footer";
+import Footer from "../../layout/Footer";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { page } = await getNewsContent();
