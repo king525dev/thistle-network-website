@@ -1,37 +1,36 @@
-import type { GalleryAlbum as GalleryAlbumType } from "@/types/gallery";
 import GalleryGrid from "./GalleryGrid";
+import { formatLongDate } from "@/lib/format";
+import type { GalleryAlbum as GalleryAlbumType } from "@/types/gallery";
 
 type GalleryAlbumProps = {
   album: GalleryAlbumType;
 };
 
-function formatAlbumDate(date: string) {
-  return new Date(date).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
+/** How many photos show in the grid. The full album link covers the rest. */
+const PREVIEW_COUNT = 7;
 
+/** One album: title, meta line, the photo grid and the link to the full album. */
 export default function GalleryAlbum({ album }: GalleryAlbumProps) {
-  const metaParts = [
-    formatAlbumDate(album.date),
-    album.location,
-    album.tagline ?? (album.attendeeCount ? `${album.attendeeCount}+ attendees` : undefined),
-  ].filter(Boolean);
+  const meta = [formatLongDate(album.date), album.location, album.tagline].filter(Boolean).join(" · ");
 
   return (
-    <article className="gallery-event">
-      <div className="gallery-event-head">
+    <article className="album-wrapper reveal">
+      <div className="album-header">
         <h2>{album.title}</h2>
-        <span>{metaParts.join(" · ")}</span>
+        <span className="album-meta">{meta}</span>
       </div>
 
       {album.images.length > 0 ? (
-        <GalleryGrid images={album.images} albumTitle={album.title} />
+        <GalleryGrid images={album.images.slice(0, PREVIEW_COUNT)} albumTitle={album.title} />
       ) : (
         <p>No photos have been added to this album yet.</p>
       )}
+
+      <div className="album-footer">
+        <a href={album.fullAlbumLink ?? "#"} className="album-btn">
+          See Full Album →
+        </a>
+      </div>
     </article>
   );
 }

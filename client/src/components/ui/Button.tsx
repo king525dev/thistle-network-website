@@ -1,68 +1,32 @@
 import Link from "next/link";
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
 
-type Variant = "primary" | "ghost" | "secondary";
-type Size = "sm" | "md" | "lg";
-
-type CommonProps = {
-  variant?: Variant;
-  size?: Size;
-  icon?: ReactNode;
+type ButtonProps = {
+  href: string;
+  variant?: "primary" | "outline";
   className?: string;
   children: ReactNode;
-};
-
-type ButtonAsLink = CommonProps &
-  AnchorHTMLAttributes<HTMLAnchorElement> & {
-    href: string;
-  };
-
-type ButtonAsButton = CommonProps &
-  ButtonHTMLAttributes<HTMLButtonElement> & {
-    href?: undefined;
-  };
-
-export type ButtonProps = ButtonAsLink | ButtonAsButton;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
 
 /**
- * Shared Button used across the site. Renders an anchor when `href` is
- * given (internal links use next/link; external/mailto/tel links fall
- * back to a plain `<a>`), otherwise a real `<button>`.
+ * The uploaded `.btn` styles, with one component for links. Internal links
+ * use next/link (client-side navigation, prefetching). External, mailto and
+ * anchor-only links use a plain <a>.
  */
-export default function Button(props: ButtonProps) {
-  const { variant = "primary", size = "md", icon, className, children, ...rest } = props;
+export default function Button({ href, variant = "primary", className, children, ...rest }: ButtonProps) {
+  const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
+  const isInternal = href.startsWith("/") && !href.startsWith("//");
 
-  const classes = ["btn", `btn-${variant}`, `btn-${size}`, className]
-    .filter(Boolean)
-    .join(" ");
-
-  if ("href" in props && props.href) {
-    const { href, ...anchorRest } = rest as AnchorHTMLAttributes<HTMLAnchorElement> & {
-      href: string;
-    };
-    const isInternal = href.startsWith("/") || href.startsWith("#");
-
-    if (isInternal) {
-      return (
-        <Link href={href} className={classes} {...anchorRest}>
-          {icon}
-          {children}
-        </Link>
-      );
-    }
-
+  if (isInternal) {
     return (
-      <a href={href} className={classes} {...anchorRest}>
-        {icon}
+      <Link href={href} className={classes} {...rest}>
         {children}
-      </a>
+      </Link>
     );
   }
-
   return (
-    <button className={classes} {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}>
-      {icon}
+    <a href={href} className={classes} {...rest}>
       {children}
-    </button>
+    </a>
   );
 }

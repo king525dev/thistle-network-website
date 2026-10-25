@@ -3,28 +3,26 @@ import type { Media } from "@/types/media";
 
 type GalleryImageProps = {
   image: Media;
-  onOpen: () => void;
+  albumTitle: string;
+  index: number;
+  onOpen: (origin: HTMLButtonElement) => void;
 };
 
-/**
- * A single clickable thumbnail. Presentational - the click handler and
- * any open/close state live in the parent (`GalleryGrid`).
- */
-export default function GalleryImage({ image, onOpen }: GalleryImageProps) {
+/** One thumbnail. A real <button>, so it is keyboard accessible and announced correctly. */
+export default function GalleryImage({ image, albumTitle, index, onOpen }: GalleryImageProps) {
   return (
     <button
       type="button"
-      className="gallery-image"
-      onClick={onOpen}
-      aria-label={`Open larger image: ${image.alternativeText ?? "gallery photo"}`}
+      className="photo-frame"
+      aria-label={`Open ${albumTitle} photo ${index + 1}`}
+      onClick={(event) => onOpen(event.currentTarget)}
     >
       <Image
         src={image.url}
-        alt={image.alternativeText ?? ""}
-        width={image.width ?? 600}
-        height={image.height ?? 600}
-        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
-        unoptimized
+        alt={image.alternativeText ?? `${albumTitle} photo ${index + 1}`}
+        width={image.width ?? 800}
+        height={image.height ?? 1000}
+        sizes="(max-width: 520px) 50vw, (max-width: 820px) 50vw, 33vw"
       />
     </button>
   );

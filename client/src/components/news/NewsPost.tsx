@@ -1,28 +1,25 @@
 import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
-import PostInteractions from "./PostInteractions";
+import PostActions from "./PostActions";
+import EmojiSection from "./EmojiSection";
+import type { Media } from "@/types/media";
 import type { NewsPost as NewsPostType } from "@/types/news";
 
 type NewsPostProps = {
   post: NewsPostType;
+  fallbackAvatar?: Media;
 };
 
-/**
- * Composes a single post from PostHeader + PostContent (both server) and
- * PostInteractions (client, owns like/react/comment state). No database,
- * Strapi, or auth logic lives here - see PostActions/CommentSection for
- * where the eventual API calls will go.
- */
-export default function NewsPost({ post }: NewsPostProps) {
+/** One update: header, body, image, and the like and emoji footer. */
+export default function NewsPost({ post, fallbackAvatar }: NewsPostProps) {
   return (
-    <article className={`post${post.pinned ? " post-pinned" : ""}`}>
-      <PostHeader author={post.author} publishedAt={post.publishedAt} pinned={post.pinned} />
-      <PostContent title={post.title} body={post.body} image={post.image} />
-      <PostInteractions
-        postId={post.id}
-        likeCount={post.likeCount}
-        emojis={post.emojis ?? []}
-      />
+    <article className={`post${post.pinned ? " pinned" : ""} reveal`}>
+      <PostHeader post={post} fallbackAvatar={fallbackAvatar} />
+      <PostContent post={post} />
+      <div className="post-footer">
+        <PostActions postId={post.id} likeCount={post.likeCount} />
+        <EmojiSection postId={post.id} reactions={post.emojis} />
+      </div>
     </article>
   );
 }

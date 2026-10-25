@@ -1,58 +1,66 @@
 "use client";
 
-import { useState } from "react";
-import EmojiSection from "./EmojiSection";
+import { useState, useTransition } from "react";
+import Icon from "@/components/ui/Icon";
+import { setNewsLike } from "@/app/actions/news";
 import { trackEvent } from "@/lib/analytics/events";
 
 type PostActionsProps = {
   postId: string;
   likeCount: number;
-  emojis: string[];
 };
 
 /**
- * Purely local, frontend-only interaction for the MVP:
- *
- *   like -> local UI state
- *
- * This will eventually become:
- *
- *   PostActions -> application API -> backend -> Postgres
- *
- * No database or Strapi calls belong here or in `NewsPost`.
+ * The like button. It updates at once (heart fills, count moves), then saves to
+ * Strapi through a server action. If the save fails the change is undone and a
+ * message is shown. If Strapi isn't configured the change stays visual only.
  */
-export default function PostActions({
-  postId,
-  likeCount,
-  emojis,
-}: PostActionsProps) {
+export default function PostActions({ postId, likeCount }: PostActionsProps) {
   const [liked, setLiked] = useState(false);
+  const [count, setCount] = useState(likeCount);
+  const [error, setError] = useState("");
+  const [pending, startTransition] = useTransition();
+  const [seenLikeCount, setSeenLikeCount] = useState(likeCount);
 
-  function toggleLike() {
-    setLiked((current) => {
-      const next = !current;
-      trackEvent("news_post_interaction", { postId, type: "like", value: next });
-      return next;
-    });
+  // Re-sync when the server sends a new count (adjusting state during render, not in an effect).
+  if (seenLikeCount !== likeCount) {
+    setSeenLikeCount(likeCount);
+    setCount(likeCount);
   }
 
-  return (
-    <div className="post-actions-wrap">
-      <div className="post-actions">
-        <button
-          type="button"
-          className={`post-action like-btn${liked ? " liked" : ""}`}
-          aria-pressed={liked}
-          onClick={toggleLike}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
-          </svg>
-          <span>{likeCount + (liked ? 1 : 0)}</span>
-        </button>
+  const toggle = () => {
+    const next = !liked;
+    setLiked(next);
+    setCount((value) => value + (next ? 1 : -1));
+    setError("");
+    trackEvent("news_post_interaction", { postId, type: "like" });
 
-        <EmojiSection initialEmojis={emojis} />
-      </div>
-    </div>
+    startTransition(async () => {
+      const result = await setNewsLike(postId, next);
+      if (result.ok) {
+        setCount(result.likeCount);
+      } else if (result.reason !== "not-configured") {
+        setLiked(!next);
+        setCount((value) => value + (next ? -1 : 1));
+        setError("Couldn't save your like. Please try again.");
+      }
+    });
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        className={`action-btn like-btn${liked ? " liked" : ""}`}
+        aria-pressed={liked}
+        aria-busy={pending}
+        aria-label={liked ? "Unlike this update" : "Like this update"}
+        onClick={toggle}
+      >
+        <Icon name="newsLike" />
+        <span className="like-count">{count}</span>
+      </button>
+      {error && <span role="status" className="action-error">{error}</span>}
+    </>
   );
 }

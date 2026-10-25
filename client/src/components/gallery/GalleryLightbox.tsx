@@ -1,98 +1,140 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import Icon from "@/components/ui/Icon";
 import type { Media } from "@/types/media";
 
 type GalleryLightboxProps = {
   images: Media[];
   index: number;
+  origin: HTMLElement | null;
   onClose: () => void;
-  onPrev: () => void;
-  onNext: () => void;
+  onIndexChange: (index: number) => void;
 };
 
-/**
- * Accessible modal image viewer. The only heavily-interactive piece of
- * the Gallery page: handles Escape/close, previous/next, keeps focus
- * inside the dialog, and restores focus on close.
- */
-export default function GalleryLightbox({
-  images,
-  index,
-  onClose,
-  onPrev,
-  onNext,
-}: GalleryLightboxProps) {
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const triggerElementRef = useRef<Element | null>(null);
-  const image = images[index];
+const EASING = "cubic-bezier(0.2, 0.8, 0.2, 1)";
 
-  useEffect(() => {
-    triggerElementRef.current = document.activeElement;
-    closeButtonRef.current?.focus();
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+/**
+ * Full-screen photo viewer, ported from the uploaded gallery_1.html (FLIP animation:
+ * the photo grows out of the thumbnail and shrinks back into it).
+ *
+ * Built on the native <dialog>: showModal() traps focus and makes the page
+ * inert, and Escape goes through `cancel`, which lets us play the close animation
+ * first. Reduced-motion users get an instant open and close.
+ */
+export default function GalleryLightbox({ images, index, origin, onClose, onIndexChange }: GalleryLightboxProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const closing = useRef(false);
+  const media = images[index];
+
+  const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Open: show the dialog, then animate the image from the thumbnail's position.
+  useLayoutEffect(() => {
+    const dialog = dialogRef.current;
+    const image = imageRef.current;
+    if (!dialog || !image) return;
+    dialog.showModal();
+
+    if (origin && origin.isConnected && !reduceMotion() && image.getBoundingClientRect().width > 0) {
+      const first = origin.getBoundingClientRect();
+      const last = image.getBoundingClientRect();
+      const scale = Math.max(first.width / last.width, first.height / last.height);
+      const dx = first.left + first.width / 2 - (last.left + last.width / 2);
+      const dy = first.top + first.height / 2 - (last.top + last.height / 2);
+      image.animate(
+        [
+          { transform: `translate(${dx}px, ${dy}px) scale(${scale})`, opacity: 0.5, borderRadius: "4px" },
+          { transform: "translate(0, 0) scale(1)", opacity: 1, borderRadius: "8px" },
+        ],
+        { duration: 400, easing: EASING }
+      );
+    }
 
     return () => {
-      document.body.style.overflow = previousOverflow;
-      if (triggerElementRef.current instanceof HTMLElement) {
-        triggerElementRef.current.focus();
-      }
+      if (dialog.open) dialog.close();
+    };
+    // Runs once, when the viewer opens. Later photos only swap the src.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Lock page scroll while the viewer is open.
+  useEffect(() => {
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
     };
   }, []);
 
-  useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
-      if (event.key === "ArrowLeft") onPrev();
-      if (event.key === "ArrowRight") onNext();
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose, onPrev, onNext]);
+  const requestClose = () => {
+    const dialog = dialogRef.current;
+    const image = imageRef.current;
+    if (closing.current || !dialog || !image) return;
+    closing.current = true;
 
-  if (!image) return null;
+    if (!origin || !origin.isConnected || reduceMotion()) {
+      onClose();
+      return;
+    }
+    const first = image.getBoundingClientRect();
+    const last = origin.getBoundingClientRect();
+    const scale = Math.max(last.width / first.width, last.height / first.height);
+    const dx = last.left + last.width / 2 - (first.left + first.width / 2);
+    const dy = last.top + last.height / 2 - (first.top + first.height / 2);
+    const animation = image.animate(
+      [
+        { transform: "translate(0, 0) scale(1)", opacity: 1, borderRadius: "8px" },
+        { transform: `translate(${dx}px, ${dy}px) scale(${scale})`, opacity: 0, borderRadius: "4px" },
+      ],
+      { duration: 300, easing: EASING, fill: "forwards" }
+    );
+    animation.onfinish = onClose;
+  };
+
+  const step = (direction: 1 | -1) => {
+    onIndexChange((index + direction + images.length) % images.length);
+  };
+
+  if (!media) return null;
 
   return (
-    <div
+    <dialog
+      ref={dialogRef}
       className="lightbox open"
-      role="dialog"
-      aria-modal="true"
-      aria-label={image.caption ?? image.alternativeText ?? "Gallery image"}
+      aria-label={`${media.alternativeText ?? "Gallery photo"} (${index + 1} of ${images.length})`}
+      onCancel={(event) => {
+        event.preventDefault();
+        requestClose();
+      }}
       onClick={(event) => {
-        if (event.target === event.currentTarget) onClose();
+        if (event.target === event.currentTarget) requestClose();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "ArrowLeft") step(-1);
+        if (event.key === "ArrowRight") step(1);
       }}
     >
-      <button ref={closeButtonRef} type="button" className="lightbox-close" onClick={onClose} aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <path d="M6 6l12 12M18 6 6 18" />
-        </svg>
+      <button className="lightbox-close" id="lightboxClose" type="button" aria-label="Close photo viewer" onClick={requestClose} autoFocus>
+        <Icon name="lightboxClose" />
       </button>
 
       {images.length > 1 && (
-        <button type="button" className="lightbox-nav lightbox-prev" onClick={onPrev} aria-label="Previous image">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </button>
+        <>
+          <button className="lightbox-nav lightbox-prev" type="button" aria-label="Previous photo" onClick={() => step(-1)}>
+            ‹
+          </button>
+          <button className="lightbox-nav lightbox-next" type="button" aria-label="Next photo" onClick={() => step(1)}>
+            ›
+          </button>
+        </>
       )}
 
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={image.url}
-        alt={image.alternativeText ?? ""}
-        className="lightbox-img"
-      />
+      {/* eslint-disable-next-line @next/next/no-img-element -- the FLIP animation needs a plain <img> with a live transform */}
+      <img ref={imageRef} id="lightboxImg" className="lightbox-img" src={media.url} alt={media.alternativeText ?? ""} />
 
-      {image.caption && <p className="lightbox-caption">{image.caption}</p>}
-
-      {images.length > 1 && (
-        <button type="button" className="lightbox-nav lightbox-next" onClick={onNext} aria-label="Next image">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <path d="M9 6l6 6-6 6" />
-          </svg>
-        </button>
-      )}
-    </div>
+      {media.caption && <p className="lightbox-caption">{media.caption}</p>}
+    </dialog>
   );
 }

@@ -1,27 +1,25 @@
 import Image from "next/image";
-import type { Media } from "@/types/media";
+import type { NewsPost } from "@/types/news";
 
 type PostContentProps = {
-  title?: string;
-  body: string;
-  image?: Media;
+  post: NewsPost;
 };
 
-export default function PostContent({ title, body, image }: PostContentProps) {
+/** The post text and its optional image. */
+export default function PostContent({ post }: PostContentProps) {
   return (
-    <div className="post-content">
-      {title && <h3 className="post-title">{title}</h3>}
-      <p className="post-body">{body}</p>
-      {image && (
+    <>
+      <div className="post-body">{post.postBody}</div>
+      {post.postImage && (
         <Image
+          src={post.postImage.url}
+          alt={post.postImage.alternativeText ?? "Update image"}
+          width={post.postImage.width ?? 900}
+          height={post.postImage.height ?? 560}
           className="post-img"
-          src={image.url}
-          alt={image.alternativeText ?? ""}
-          width={image.width ?? 900}
-          height={image.height ?? 560}
-          unoptimized
+          sizes="(max-width: 640px) 100vw, 640px"
         />
       )}
-    </div>
+    </>
   );
 }

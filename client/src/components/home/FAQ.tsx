@@ -1,69 +1,52 @@
 "use client";
 
 import { useState } from "react";
-import Container from "@/components/ui/Container";
-import type { FaqItem } from "@/types/site";
+import Icon from "@/components/ui/Icon";
+import type { FaqContent } from "@/types/home";
 
 type FAQProps = {
-  items: FaqItem[];
+  content: FaqContent;
 };
 
-export default function FAQ({ items }: FAQProps) {
-  const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
-  const visibleItems = items.filter((item) => item.published !== false);
+/**
+ * Accessible accordion. Only one answer is open at a time. Each question is a
+ * real <button> with aria-expanded and aria-controls, and each answer is a
+ * labelled region. Opening and closing is local state; no library.
+ */
+export default function FAQ({ content }: FAQProps) {
+  const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <section className="about" id="faq">
-      <Container className="about-grid">
-        <div>
-          <p className="eyebrow">About the committee</p>
-          <h2>Run by apprentices who&apos;ve been where you are.</h2>
-          <p className="committee-blurb">
-            Thistle Network is led by a small volunteer committee covering events, partnerships,
-            communications and community management — supported by a pool of mentors from across
-            Scottish industry.
-          </p>
-        </div>
+    <section className="about-faq" id="faq" aria-label="Frequently asked questions">
+      <div className="faq-intro">
+        <p className="eyebrow">{content.eyebrow}</p>
+        <h2>{content.header}</h2>
+        <p>{content.description}</p>
+      </div>
 
-        <div>
-          <div className="faq">
-            {visibleItems.map((item) => {
-              const isOpen = openId === item.id;
-              const panelId = `faq-panel-${item.id}`;
-              const buttonId = `faq-button-${item.id}`;
-
-              return (
-                <div className={`faq-item${isOpen ? " open" : ""}`} key={item.id}>
-                  <h3>
-                    <button
-                      type="button"
-                      className="faq-q"
-                      id={buttonId}
-                      aria-expanded={isOpen}
-                      aria-controls={panelId}
-                      onClick={() => setOpenId(isOpen ? null : item.id)}
-                    >
-                      {item.question}
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                        <path d="M12 5v14M5 12h14" />
-                      </svg>
-                    </button>
-                  </h3>
-                  <div
-                    id={panelId}
-                    role="region"
-                    aria-labelledby={buttonId}
-                    className="faq-a"
-                    hidden={!isOpen}
-                  >
-                    <p>{item.answer}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </Container>
+      <div className="faq">
+        {content.items.map((item) => {
+          const isOpen = openId === item.id;
+          return (
+            <div className={`faq-item reveal${isOpen ? " open" : ""}`} key={item.id}>
+              <button
+                className="faq-q"
+                type="button"
+                id={`faq-q-${item.id}`}
+                aria-expanded={isOpen}
+                aria-controls={`faq-a-${item.id}`}
+                onClick={() => setOpenId(isOpen ? null : item.id)}
+              >
+                {item.question}
+                <Icon name="faqPlus" />
+              </button>
+              <div className="faq-a" id={`faq-a-${item.id}`} role="region" aria-labelledby={`faq-q-${item.id}`}>
+                <p>{item.answer}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 }

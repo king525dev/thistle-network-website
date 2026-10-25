@@ -1,36 +1,36 @@
 import Image from "next/image";
+import type { Media } from "@/types/media";
 
 type ThistleLogoProps = {
-  /** "mark" = just the flower/network emblem. "full" = emblem + wordmark. */
-  variant?: "mark" | "full";
-  size?: number;
-  className?: string;
+  image?: Media;
+  variant: "nav" | "footer" | "hero";
+  priority?: boolean;
 };
 
 /**
- * Renders the Thistle Network logo.
- *
- * The actual artwork is supplied separately - drop the SVG at
- * `public/images/thistle-logo.svg` (and `thistle-emblem.svg` for the
- * mark-only version used in the hero). Until then this renders the
- * wordmark on its own so the layout still reads correctly.
+ * Renders the logo image Strapi or the local fallback provides. If even the
+ * local file is missing, it falls back to a plain text wordmark, so the
+ * header never shows a broken image.
  */
-export default function ThistleLogo({ variant = "full", size = 36, className }: ThistleLogoProps) {
+export default function ThistleLogo({ image, variant, priority = false }: ThistleLogoProps) {
+  if (!image) {
+    return (
+      <span className={`logo-fallback logo-${variant}`}>
+        <b>thistle</b>
+        <strong>network</strong>
+      </span>
+    );
+  }
   return (
-    <span className={["brand-lockup", className].filter(Boolean).join(" ")}>
-      <Image
-        src="/images/thistle-emblem.svg"
-        alt=""
-        width={size}
-        height={size}
-        className="brand-mark"
-        aria-hidden="true"
-      />
-      {variant === "full" && (
-        <span className="brand-text">
-          <span className="c-purple">Thistle</span> <span className="c-green">Network</span>
-        </span>
-      )}
-    </span>
+    <Image
+      className={`logo-img logo-${variant}`}
+      src={image.url}
+      alt={image.alternativeText ?? "Thistle Network"}
+      width={image.width ?? 2005}
+      height={image.height ?? 379}
+      priority={priority}
+      unoptimized={image.url.endsWith(".svg")}
+      sizes={variant === "hero" ? "(max-width: 900px) 80vw, 480px" : "240px"}
+    />
   );
 }

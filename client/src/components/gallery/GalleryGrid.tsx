@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import type { Media } from "@/types/media";
 import GalleryImage from "./GalleryImage";
 import GalleryLightbox from "./GalleryLightbox";
@@ -11,37 +11,40 @@ type GalleryGridProps = {
   albumTitle: string;
 };
 
+/**
+ * The photo grid for one album. It owns the lightbox state and remembers the
+ * clicked thumbnail, so the lightbox can animate from it.
+ */
 export default function GalleryGrid({ images, albumTitle }: GalleryGridProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const open = useCallback(
-    (index: number) => {
-      setOpenIndex(index);
-      trackEvent("gallery_image_opened", { album: albumTitle, index });
-    },
-    [albumTitle]
-  );
-
-  const close = useCallback(() => setOpenIndex(null), []);
-  const prev = useCallback(
-    () => setOpenIndex((current) => (current === null ? null : (current - 1 + images.length) % images.length)),
-    [images.length]
-  );
-  const next = useCallback(
-    () => setOpenIndex((current) => (current === null ? null : (current + 1) % images.length)),
-    [images.length]
-  );
+  const [origin, setOrigin] = useState<HTMLElement | null>(null);
 
   return (
     <>
-      <div className="masonry">
+      <div className="masonry-grid">
         {images.map((image, index) => (
-          <GalleryImage key={image.id} image={image} onOpen={() => open(index)} />
+          <GalleryImage
+            key={image.id}
+            image={image}
+            albumTitle={albumTitle}
+            index={index}
+            onOpen={(element) => {
+              setOrigin(element);
+              setOpenIndex(index);
+              trackEvent("gallery_image_opened", { album: albumTitle, index });
+            }}
+          />
         ))}
       </div>
 
       {openIndex !== null && (
-        <GalleryLightbox images={images} index={openIndex} onClose={close} onPrev={prev} onNext={next} />
+        <GalleryLightbox
+          images={images}
+          index={openIndex}
+          origin={origin}
+          onIndexChange={setOpenIndex}
+          onClose={() => setOpenIndex(null)}
+        />
       )}
     </>
   );

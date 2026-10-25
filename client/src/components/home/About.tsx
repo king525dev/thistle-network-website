@@ -1,37 +1,37 @@
-import Container from "@/components/ui/Container";
-
-export type AboutContent = {
-  lead: string;
-  paragraphs: string[];
-  tagline: string;
-};
-
-const defaultContent: AboutContent = {
-  lead: "Thistle Network is a Scottish apprentice community focused on connection, growth and shared opportunity.",
-  paragraphs: [
-    "We bring apprentices together across industries, universities and training providers to build confidence, expand networks and create a supportive space for early talent in Scotland.",
-    "Our aim is to make apprenticeships feel connected rather than isolated. Through meet-ups, peer support and collaborative events, we help apprentices develop personally and professionally while contributing to a stronger early-career ecosystem in Scotland.",
-  ],
-  tagline: "Thistle Network is built by Scottish apprentices for Scottish apprentices.",
-};
+import Button from "@/components/ui/Button";
+import type { AboutContent } from "@/types/home";
 
 type AboutProps = {
-  content?: AboutContent;
+  content: AboutContent;
 };
 
-export default function About({ content = defaultContent }: AboutProps) {
+/**
+ * The "Who we are" header and the two cards. The page places this, and the FAQ,
+ * inside one #about container, because the uploaded CSS scopes them there.
+ */
+export default function About({ content }: AboutProps) {
   return (
-    <section className="aims" id="about">
-      <Container className="aims-inner">
-        <p className="eyebrow eyebrow-center">Who we are</p>
-        <p className="lead">{content.lead}</p>
-        {content.paragraphs.map((paragraph) => (
-          <p className="body-text" key={paragraph}>
-            {paragraph}
-          </p>
+    <>
+      <header className="about-header">
+        <p className="eyebrow">{content.eyebrow}</p>
+        <h2>{content.header}</h2>
+        <p>{content.description}</p>
+        <Button href={content.aboutCta.link} variant="outline">
+          {content.aboutCta.text}
+        </Button>
+      </header>
+
+      <section className="about-grid">
+        {content.cards.map((card) => (
+          <div className="about-card reveal" key={card.id}>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+            <Button href={card.cta.link} variant="primary">
+              {card.cta.text}
+            </Button>
+          </div>
         ))}
-        <p className="tagline">{content.tagline}</p>
-      </Container>
-    </section>
+      </section>
+    </>
   );
 }

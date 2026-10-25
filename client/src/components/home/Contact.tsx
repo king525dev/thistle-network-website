@@ -1,33 +1,33 @@
-import Container from "@/components/ui/Container";
-import type { ContactConfig } from "@/types/site";
+import Icon from "@/components/ui/Icon";
+import type { ContactContent } from "@/types/home";
+import { socialButtonIcon } from "./social-icons";
 
 type ContactProps = {
-  contact: ContactConfig;
+  content: ContactContent;
 };
 
-export default function Contact({ contact }: ContactProps) {
+/**
+ * The contact band at the bottom of the homepage. It is a homepage section only,
+ * not part of the shared footer, and its content lives on the Home Page single type.
+ */
+export default function Contact({ content }: ContactProps) {
   return (
-    <section className="contact" id="contact">
-      <Container className="contact-inner">
-        <p className="eyebrow eyebrow-center">Get in touch</p>
-        <h2>Say hello.</h2>
-        {contact.generalEmail && (
-          <a className="contact-email" href={`mailto:${contact.generalEmail}`}>
-            {contact.generalEmail}
-          </a>
-        )}
-        {contact.socialLinks && contact.socialLinks.length > 0 && (
-          <div className="contact-socials">
-            {contact.socialLinks
-              .filter((link) => link.icon !== "email")
-              .map((link) => (
-                <a className="contact-social" key={link.id} href={link.href} aria-label={link.label}>
-                  {link.label}
-                </a>
-              ))}
-          </div>
-        )}
-      </Container>
-    </section>
+    <div className="container contact-inner">
+      <p className="eyebrow">{content.eyebrow}</p>
+      <a className="contact-email" href={`mailto:${content.mailLink}`}>
+        {content.mailLink}
+      </a>
+      <div className="social-links">
+        {content.socials.map((social) => {
+          const icon = socialButtonIcon(social.platform);
+          return (
+            <a key={social.id} className="social-btn" href={social.link} aria-label={`Thistle Network on ${social.text}`}>
+              {icon && <Icon name={icon} />}
+              {social.text}
+            </a>
+          );
+        })}
+      </div>
+    </div>
   );
 }

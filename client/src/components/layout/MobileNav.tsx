@@ -1,53 +1,99 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import ThistleLogo from "@/components/brand/ThistleLogo";
+import type { Cta } from "@/types/common";
+import type { Media } from "@/types/media";
 import type { NavLink } from "@/types/site";
 
 type MobileNavProps = {
-  navLinks: NavLink[];
-  registrationHref: string;
+  logo?: Media;
+  links: NavLink[];
+  cta: Cta;
 };
 
 /**
- * Accessible hamburger menu for small screens. This is the only part of
- * the header that needs client-side state - everything else in NavBar
- * renders on the server.
+ * The whole site header, as a client component, because it owns two pieces
+ * of state: the mobile menu, and whether the nav is visible.
+ *
+ * Visibility follows the uploaded design: the nav is hidden while the hero is
+ * on screen and fades in once the hero has fully left. An IntersectionObserver
+ * does this, instead of a scroll listener, so it costs nothing per frame.
  */
-export default function MobileNav({ navLinks, registrationHref }: MobileNavProps) {
+export default function MobileNav({ logo, links, cta }: MobileNavProps) {
+  const navRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
 
-  return (
-    <div className="mobile-nav">
-      <button
-        type="button"
-        className="mobile-nav-toggle"
-        aria-expanded={open}
-        aria-controls="mobile-nav-panel"
-        aria-label={open ? "Close menu" : "Open menu"}
-        onClick={() => setOpen((v) => !v)}
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          {open ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-        </svg>
-      </button>
+  useEffect(() => {
+    const nav = navRef.current;
+    const hero = document.getElementById("hero");
+    if (!nav || !hero) return;
 
-      {open && (
-        <div id="mobile-nav-panel" className="mobile-nav-panel">
-          <ul>
-            {navLinks.map((link) => (
-              <li key={link.id}>
-                <Link href={link.href} onClick={() => setOpen(false)}>
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Link href={registrationHref} className="btn btn-primary" onClick={() => setOpen(false)}>
-            Register to join
+    const setVisible = (visible: boolean) => {
+      nav.classList.toggle("is-visible", visible);
+      nav.setAttribute("aria-hidden", String(!visible));
+      if (visible) nav.removeAttribute("inert");
+      else {
+        nav.setAttribute("inert", "");
+        setOpen(false);
+      }
+    };
+
+    const observer = new IntersectionObserver(([entry]) => setVisible(!entry.isIntersecting), { threshold: 0 });
+    observer.observe(hero);
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  const close = () => setOpen(false);
+
+  return (
+    <nav
+      ref={navRef}
+      className="site-nav"
+      id="siteNav"
+      aria-label="Main navigation"
+      aria-hidden="true"
+      inert
+    >
+      <div className="site-nav-inner">
+        <Link className="nav-brand" href="/#hero" aria-label="Thistle Network home">
+          <ThistleLogo image={logo} variant="nav" priority />
+        </Link>
+
+        <button
+          className="nav-menu-toggle"
+          type="button"
+          aria-expanded={open}
+          aria-controls="siteNavLinks"
+          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <div className={`site-nav-links${open ? " is-open" : ""}`} id="siteNavLinks">
+          {links.map((link) => (
+            <Link key={link.id} href={link.link} onClick={close}>
+              {link.text}
+            </Link>
+          ))}
+          <Link className="nav-register" href={cta.link} onClick={close}>
+            {cta.text} <span aria-hidden="true">↗</span>
           </Link>
         </div>
-      )}
-    </div>
+      </div>
+    </nav>
   );
 }

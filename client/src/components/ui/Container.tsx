@@ -6,10 +6,7 @@ type ContainerProps = {
   children: ReactNode;
 };
 
-/**
- * Encapsulates the page max-width/padding previously represented by the
- * `.wrap` class in the static prototype.
- */
+/** The uploaded `.container` width and padding rules. */
 export default function Container({ as: Tag = "div", className, children }: ContainerProps) {
-  return <Tag className={["wrap", className].filter(Boolean).join(" ")}>{children}</Tag>;
+  return <Tag className={["container", className].filter(Boolean).join(" ")}>{children}</Tag>;
 }

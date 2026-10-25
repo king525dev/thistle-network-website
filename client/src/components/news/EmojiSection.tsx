@@ -1,69 +1,68 @@
 "use client";
 
-import { useState } from "react";
-
-const REACTION_PALETTE = ["🙌", "🎉", "👏", "❤️", "👍"];
+import { useState, useTransition } from "react";
+import { setNewsEmoji } from "@/app/actions/news";
+import type { NewsEmojiReaction } from "@/types/news";
 
 type EmojiSectionProps = {
-  initialEmojis: string[];
+  postId: string;
+  reactions: NewsEmojiReaction[];
 };
 
 /**
- * Shows the unique set of emoji reactions on a post and lets the visitor
- * add one. Only the distinct emojis are tracked/displayed, not who
- * reacted - matching the product requirement that authors aren't
- * counted. Local UI state only; nothing is persisted.
+ * One pill per unique emoji with its count. Tapping a pill updates at once and
+ * saves the count to Strapi. A failed save is undone, as with the like button.
  */
-export default function EmojiSection({ initialEmojis }: EmojiSectionProps) {
-  const [emojis, setEmojis] = useState<string[]>(initialEmojis);
-  const [pickerOpen, setPickerOpen] = useState(false);
+export default function EmojiSection({ postId, reactions }: EmojiSectionProps) {
+  const [counts, setCounts] = useState<Record<string, number>>(() => Object.fromEntries(reactions.map((r) => [r.emoji, r.count])));
+  const [picked, setPicked] = useState<Record<string, boolean>>({});
+  const [error, setError] = useState("");
+  const [, startTransition] = useTransition();
+  const [seenReactions, setSeenReactions] = useState(reactions);
 
-  function addEmoji(emoji: string) {
-    setEmojis((current) => (current.includes(emoji) ? current : [...current, emoji]));
-    setPickerOpen(false);
+  // Re-sync when the server sends new reactions (adjusting state during render, not in an effect).
+  if (seenReactions !== reactions) {
+    setSeenReactions(reactions);
+    setCounts(Object.fromEntries(reactions.map((r) => [r.emoji, r.count])));
   }
 
+  const toggle = (emoji: string) => {
+    const next = !picked[emoji];
+    setPicked((current) => ({ ...current, [emoji]: next }));
+    setCounts((current) => ({ ...current, [emoji]: (current[emoji] ?? 0) + (next ? 1 : -1) }));
+    setError("");
+
+    startTransition(async () => {
+      const result = await setNewsEmoji(postId, emoji, next);
+      if (result.ok) {
+        setCounts(Object.fromEntries(result.emojis.map((r) => [r.emoji, r.count])));
+      } else if (result.reason !== "not-configured") {
+        setPicked((current) => ({ ...current, [emoji]: !next }));
+        setCounts((current) => ({ ...current, [emoji]: (current[emoji] ?? 0) + (next ? -1 : 1) }));
+        setError("Couldn't save that reaction. Please try again.");
+      }
+    });
+  };
+
   return (
-    <div className="emoji-section">
-      <ul className="emoji-list" aria-label="Reactions">
-        {emojis.map((emoji) => (
-          <li key={emoji} aria-hidden="true">
-            {emoji}
-          </li>
-        ))}
-      </ul>
-
-      <div className="emoji-picker-wrap">
-        <button
-          type="button"
-          className="post-action"
-          aria-haspopup="true"
-          aria-expanded={pickerOpen}
-          onClick={() => setPickerOpen((v) => !v)}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
-          </svg>
-          React
-        </button>
-
-        {pickerOpen && (
-          <div className="emoji-picker" role="menu">
-            {REACTION_PALETTE.map((emoji) => (
-              <button
-                type="button"
-                role="menuitem"
-                key={emoji}
-                onClick={() => addEmoji(emoji)}
-                aria-label={`React with ${emoji}`}
-              >
-                {emoji}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+    <div className="emoji-reactions" aria-label="Reactions">
+      {reactions.map((reaction) => {
+        const isPicked = Boolean(picked[reaction.emoji]);
+        const count = counts[reaction.emoji] ?? reaction.count;
+        return (
+          <button
+            key={reaction.emoji}
+            type="button"
+            className={`emoji-pill${isPicked ? " is-picked" : ""}`}
+            aria-pressed={isPicked}
+            aria-label={`${reaction.emoji} reaction, ${count}`}
+            onClick={() => toggle(reaction.emoji)}
+          >
+            {reaction.emoji} <span className="count">{count}</span>
+          </button>
+        );
+      })}
+      {error && <span role="status" className="action-error">{error}</span>}
     </div>
   );
 }

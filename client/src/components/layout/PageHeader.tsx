@@ -1,23 +1,12 @@
-import Container from "@/components/ui/Container";
+import type { PageHeader as PageHeaderContent } from "@/types/common";
 
-export type PageHeaderProps = {
-  eyebrow?: string;
-  title: string;
-  description?: string;
-};
-
-/**
- * Reusable header used by Gallery, News, and future pages (Events,
- * Resources, ...).
- */
-export default function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
+/** The page title block shared by Gallery and News (the uploaded `.page-header`). */
+export default function PageHeader({ eyebrow, header, description }: PageHeaderContent) {
   return (
-    <section className="page-hero">
-      <Container>
-        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h1>{title}</h1>
-        {description && <p>{description}</p>}
-      </Container>
-    </section>
+    <header className="page-header">
+      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+      <h1>{header}</h1>
+      {description && <p className="page-intro">{description}</p>}
+    </header>
   );
 }
