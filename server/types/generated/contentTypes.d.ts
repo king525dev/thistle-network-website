@@ -604,7 +604,7 @@ export interface ApiHeroPhotoHeroPhoto extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    cation: Schema.Attribute.String;
+    caption: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
