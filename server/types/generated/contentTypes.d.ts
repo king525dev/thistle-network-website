@@ -586,6 +586,36 @@ export interface ApiGalleryPageGalleryPage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiHeroPhotoHeroPhoto extends Struct.CollectionTypeSchema {
+  collectionName: 'hero_photos';
+  info: {
+    displayName: 'Hero Photo';
+    pluralName: 'hero-photos';
+    singularName: 'hero-photo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cation: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::hero-photo.hero-photo'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
   collectionName: 'home_pages';
   info: {
@@ -1234,6 +1264,7 @@ declare module '@strapi/strapi' {
       'api::event.event': ApiEventEvent;
       'api::gallery-album.gallery-album': ApiGalleryAlbumGalleryAlbum;
       'api::gallery-page.gallery-page': ApiGalleryPageGalleryPage;
+      'api::hero-photo.hero-photo': ApiHeroPhotoHeroPhoto;
       'api::home-page.home-page': ApiHomePageHomePage;
       'api::news-page.news-page': ApiNewsPageNewsPage;
       'api::news-post.news-post': ApiNewsPostNewsPost;
