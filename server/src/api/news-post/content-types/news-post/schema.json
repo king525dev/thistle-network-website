@@ -7,20 +7,25 @@
     "displayName": "News Posts"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
+    "author": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::author.author"
+    },
     "title": {
       "type": "string"
     },
-    "body": {
+    "postbody": {
       "type": "text"
     },
     "pinned": {
       "type": "boolean"
     },
-    "image": {
+    "postimage": {
       "type": "media",
       "multiple": false,
       "allowedTypes": [
@@ -30,10 +35,27 @@
         "audios"
       ]
     },
-    "author": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::author.author"
+    "postedAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "newsType": {
+      "type": "enumeration",
+      "required": true,
+      "default": "Announcement",
+      "enum": [
+        "Announcement",
+        "Event"
+      ]
+    },
+    "likeCount": {
+      "type": "integer",
+      "default": 0
+    },
+    "emojis": {
+      "type": "component",
+      "component": "news.emoji-reaction",
+      "repeatable": true
     }
   }
 }

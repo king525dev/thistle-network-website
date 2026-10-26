@@ -12,7 +12,8 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "profileImage": {
       "type": "media",
@@ -23,6 +24,11 @@
         "videos",
         "audios"
       ]
+    },
+    "handle": {
+      "type": "string",
+      "default": "@thistlenetwork",
+      "required": true
     }
   }
 }
