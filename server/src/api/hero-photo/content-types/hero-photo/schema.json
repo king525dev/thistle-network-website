@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hero_photos",
+  "info": {
+    "singularName": "hero-photo",
+    "pluralName": "hero-photos",
+    "displayName": "Hero Photo"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cation": {
+      "type": "string"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}
