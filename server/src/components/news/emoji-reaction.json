@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_news_emoji_reactions",
+  "info": {
+    "displayName": "Emoji Reaction",
+    "icon": "emotionHappy"
+  },
+  "options": {},
+  "attributes": {
+    "emoji": {
+      "type": "string",
+      "required": true
+    },
+    "count": {
+      "type": "integer",
+      "default": 0
+    }
+  },
+  "config": {}
+}
