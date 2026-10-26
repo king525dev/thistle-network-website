@@ -487,7 +487,8 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   attributes: {
     coverImage: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios'
-    >;
+    > &
+      Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -495,7 +496,9 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     endDate: Schema.Attribute.DateTime;
     eventStatus: Schema.Attribute.Enumeration<
       ['upcoming', 'next', 'previous', 'past']
-    >;
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'next'>;
     gallery_album: Schema.Attribute.Relation<
       'oneToOne',
       'api::gallery-album.gallery-album'
@@ -506,9 +509,8 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     location: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     registrationUrl: Schema.Attribute.String;
-    slug: Schema.Attribute.UID<'title'>;
-    startDate: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
+    startDate: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
