@@ -136,6 +136,30 @@ export interface HomeRegistrationStep extends Struct.ComponentSchema {
   };
 }
 
+export interface LayoutFooterColumn extends Struct.ComponentSchema {
+  collectionName: 'components_layout_footer_columns';
+  info: {
+    displayName: 'Footer Column';
+    icon: 'layout';
+  };
+  attributes: {
+    heaader: Schema.Attribute.String & Schema.Attribute.Required;
+    links: Schema.Attribute.Component<'shared.link', true>;
+  };
+}
+
+export interface NewsEmojiReaction extends Struct.ComponentSchema {
+  collectionName: 'components_news_emoji_reactions';
+  info: {
+    displayName: 'Emoji Reaction';
+    icon: 'emotionHappy';
+  };
+  attributes: {
+    count: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    emoji: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SharedCta extends Struct.ComponentSchema {
   collectionName: 'components_shared_ctas';
   info: {
@@ -216,6 +240,8 @@ declare module '@strapi/strapi' {
       'home.join-modal': HomeJoinModal;
       'home.registration': HomeRegistration;
       'home.registration-step': HomeRegistrationStep;
+      'layout.footer-column': LayoutFooterColumn;
+      'news.emoji-reaction': NewsEmojiReaction;
       'shared.cta': SharedCta;
       'shared.join-option': SharedJoinOption;
       'shared.link': SharedLink;
