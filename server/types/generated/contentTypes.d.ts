@@ -536,8 +536,9 @@ export interface ApiGalleryAlbumGalleryAlbum
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    date: Schema.Attribute.Date;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
     event: Schema.Attribute.Relation<'oneToOne', 'api::event.event'>;
+    fullAlbumLink: Schema.Attribute.String;
     images: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
       true
@@ -551,7 +552,8 @@ export interface ApiGalleryAlbumGalleryAlbum
     location: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     tagLine: Schema.Attribute.String;
-    title: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    uid: Schema.Attribute.UID<'title'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
