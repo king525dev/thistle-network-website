@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_home_registration_step_s",
+  "info": {
+    "displayName": "Registration Step ",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "stepNumber": {
+      "type": "string"
+    },
+    "stepHeader": {
+      "type": "string",
+      "required": true
+    },
+    "stepDescription": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

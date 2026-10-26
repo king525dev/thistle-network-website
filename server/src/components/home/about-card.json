@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_home_about_cards",
+  "info": {
+    "displayName": "About Card",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "aboutCta": {
+      "type": "component",
+      "component": "shared.cta",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

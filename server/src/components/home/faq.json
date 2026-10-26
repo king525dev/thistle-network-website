@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_home_faqs",
+  "info": {
+    "displayName": "FAQ"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "header": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "items": {
+      "type": "component",
+      "component": "home.faq-item",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

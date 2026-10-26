@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_home_contacts",
+  "info": {
+    "displayName": "Contact",
+    "icon": "phone"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "mailLink": {
+      "type": "string",
+      "required": true
+    },
+    "socials": {
+      "type": "component",
+      "component": "shared.social-link",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

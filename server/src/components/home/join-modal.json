@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_home_join_modals",
+  "info": {
+    "displayName": "Join Modal",
+    "icon": "cursor"
+  },
+  "options": {},
+  "attributes": {
+    "modalTitle": {
+      "type": "string"
+    },
+    "modalDesciption": {
+      "type": "text"
+    },
+    "options": {
+      "type": "component",
+      "component": "shared.join-option",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

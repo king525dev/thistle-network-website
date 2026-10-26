@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_home_registrations",
+  "info": {
+    "displayName": "Registration",
+    "icon": "layout"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "header": {
+      "type": "string",
+      "required": true
+    },
+    "steps": {
+      "type": "component",
+      "component": "home.registration-step",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

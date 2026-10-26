@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_home_event_sections",
+  "info": {
+    "displayName": "EventSection",
+    "icon": "calendar"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "header": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

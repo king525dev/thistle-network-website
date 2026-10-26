@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_home_abouts",
+  "info": {
+    "displayName": "About",
+    "icon": "user"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "header": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "aboutCta": {
+      "type": "component",
+      "component": "shared.cta",
+      "repeatable": false
+    },
+    "aboutGrid": {
+      "type": "component",
+      "component": "home.about-card",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}
