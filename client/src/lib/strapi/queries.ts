@@ -1,5 +1,17 @@
-import type { StrapiCollectionResponse, StrapiEntity, StrapiEventFields, StrapiGalleryAlbumFields, StrapiHeroPhotoFields, StrapiHomePageFields, StrapiNewsPostFields, StrapiPageFields, StrapiSingleResponse, StrapiSiteSettingFields } from "./types";
+import qs from 'qs';
 import { strapiFetch, StrapiError } from "./client";
+import type { 
+  StrapiCollectionResponse, 
+  StrapiEntity, 
+  StrapiEventFields, 
+  StrapiGalleryAlbumFields, 
+  StrapiHeroPhotoFields, 
+  StrapiHomePageFields, 
+  StrapiNewsPostFields, 
+  StrapiPageFields, 
+  StrapiSingleResponse, 
+  StrapiSiteSettingFields 
+} from "./types";
 
 /**
  * Raw requests only. Routes never call these: they go through lib/content.ts.
@@ -7,7 +19,20 @@ import { strapiFetch, StrapiError } from "./client";
  * request spells out its `populate`.
  */
 
-const HOME_POPULATE = [
+const HOME_QUERY = qs.stringify({
+    populate: {
+      image: true,
+      author: {
+        populate: {
+          profileImage: true,
+        },
+      },
+    },
+  }, {
+    encodeValuesOnly: true,
+  });
+
+const homePopulate = [
   "populate[hero][populate]=*",
   "populate[joinModal][populate][options]=true",
   "populate[registration][populate][steps]=true",
@@ -18,7 +43,7 @@ const HOME_POPULATE = [
   "populate[contact][populate][socials]=true",
 ].join("&");
 
-const SITE_POPULATE = [
+const sitePopulate = [
   "populate[navLogo]=true",
   "populate[navLinks]=true",
   "populate[navCta]=true",
@@ -37,8 +62,8 @@ async function fetchSingle<T>(path: string): Promise<T | null> {
   }
 }
 
-export const fetchHomePage = () => fetchSingle<StrapiHomePageFields>(`/api/home-page?${HOME_POPULATE}`);
-export const fetchSiteSettings = () => fetchSingle<StrapiSiteSettingFields>(`/api/site-setting?${SITE_POPULATE}`);
+export const fetchHomePage = () => fetchSingle<StrapiHomePageFields>(`/api/home-page?${homePopulate}`);
+export const fetchSiteSettings = () => fetchSingle<StrapiSiteSettingFields>(`/api/site-setting?${sitePopulate}`);
 export const fetchGalleryPage = () => fetchSingle<StrapiPageFields>(`/api/gallery-page?populate[header]=true`);
 export const fetchNewsPage = () => fetchSingle<StrapiPageFields>(`/api/news-page?populate[header]=true`);
 
