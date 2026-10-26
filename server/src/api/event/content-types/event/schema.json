@@ -11,31 +11,27 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "slug": {
-      "type": "uid",
-      "targetField": "title"
-    },
     "title": {
-      "type": "string"
-    },
-    "location": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "description": {
       "type": "text"
     },
+    "location": {
+      "type": "string"
+    },
     "startDate": {
-      "type": "datetime"
+      "type": "datetime",
+      "required": true
     },
     "endDate": {
       "type": "datetime"
     },
-    "registrationUrl": {
-      "type": "string"
-    },
     "coverImage": {
       "type": "media",
       "multiple": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
@@ -43,8 +39,13 @@
         "audios"
       ]
     },
+    "registrationUrl": {
+      "type": "string"
+    },
     "eventStatus": {
       "type": "enumeration",
+      "required": true,
+      "default": "next",
       "enum": [
         "upcoming",
         "next",
