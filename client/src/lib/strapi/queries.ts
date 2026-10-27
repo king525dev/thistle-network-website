@@ -19,29 +19,70 @@ import type {
  * request spells out its `populate`.
  */
 
-const HOME_QUERY = qs.stringify({
-    populate: {
-      image: true,
-      author: {
-        populate: {
-          profileImage: true,
+const HOME_QUERY = {
+  populate: {
+    hero: {
+      populate: {
+        heroLogo: true,
+        thistleIcon: true,
+      },
+    },
+
+    joinModal: {
+      populate: {
+        options: true,
+      },
+    },
+
+    registration: {
+      populate: {
+        steps: true,
+      },
+    },
+
+    eventsSection: true,
+
+    about: {
+      populate: {
+        aboutCta: true,
+        aboutGrid: {
+          populate: {
+            cta: true,
+          },
         },
       },
     },
-  }, {
-    encodeValuesOnly: true,
-  });
 
-const homePopulate = [
-  "populate[hero][populate]=*",
-  "populate[joinModal][populate][options]=true",
-  "populate[registration][populate][steps]=true",
-  "populate[eventsSection]=true",
-  "populate[about][populate][aboutCta]=true",
-  "populate[about][populate][aboutGrid][populate][cta]=true",
-  "populate[faq][populate][items]=true",
-  "populate[contact][populate][socials]=true",
-].join("&");
+    faq: {
+      populate: {
+        items: true,
+      },
+    },
+
+    contact: {
+      populate: {
+        socials: true,
+      },
+    },
+  },
+}
+
+const homePopulate = qs.stringify(HOME_QUERY, {
+  encodeValuesOnly: true
+});
+
+console.log(`/api/home-page?${homePopulate}`)
+
+// const homePopulate = [
+//   "populate[hero][populate]=*",
+//   "populate[joinModal][populate][options]=true",
+//   "populate[registration][populate][steps]=true",
+//   "populate[eventsSection]=true",
+//   "populate[about][populate][aboutCta]=true",
+//   "populate[about][populate][aboutGrid][populate][cta]=true",
+//   "populate[faq][populate][items]=true",
+//   "populate[contact][populate][socials]=true",
+// ].join("&");
 
 const sitePopulate = [
   "populate[navLogo]=true",

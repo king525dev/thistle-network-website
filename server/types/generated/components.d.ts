@@ -22,7 +22,7 @@ export interface HomeAboutCard extends Struct.ComponentSchema {
     icon: 'file';
   };
   attributes: {
-    aboutCta: Schema.Attribute.Component<'shared.cta', true>;
+    cta: Schema.Attribute.Component<'shared.cta', true>;
     description: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
