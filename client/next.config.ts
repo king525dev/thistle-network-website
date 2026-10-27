@@ -6,7 +6,10 @@ import type { NextConfig } from "next";
  * If your media lives on another host (for example a cloud storage bucket), add it here.
  */
 const remotePatterns: NonNullable<NonNullable<NextConfig["images"]>["remotePatterns"]> = [
-  { protocol: "https", hostname: "picsum.photos" },
+  { 
+    protocol: "https", 
+    hostname: "picsum.photos" 
+  },
 ];
 
 if (process.env.STRAPI_URL) {
@@ -20,7 +23,11 @@ if (process.env.STRAPI_URL) {
 }
 
 const nextConfig: NextConfig = {
-  images: { remotePatterns },
+  images: {
+    remotePatterns,
+    dangerouslyAllowLocalIP:
+      process.env.NODE_ENV === "development",
+  },
   poweredByHeader: false,
 };
 
