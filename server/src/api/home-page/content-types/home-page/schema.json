@@ -46,6 +46,11 @@
     },
     "seoDescription": {
       "type": "string"
+    },
+    "contact": {
+      "type": "component",
+      "component": "home.contact",
+      "repeatable": false
     }
   }
 }
