@@ -113,7 +113,7 @@ export type StrapiEventFields = {
   numberOfAttendees: number;
   gallery?: StrapiEntity<{ title: string; fullAlbumLink?: string | null }> | null;
   cta: StrapiComponent<StrapiCtaFields> | null;
-  status: "upcoming" | "next" | "previous" | "past";
+  eventStatus: "upcoming" | "next" | "previous" | "past";
 };
 
 export type StrapiGalleryAlbumFields = {

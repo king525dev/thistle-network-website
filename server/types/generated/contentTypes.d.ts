@@ -504,7 +504,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'next'>;
-    gallery_album: Schema.Attribute.Relation<
+    gallery: Schema.Attribute.Relation<
       'oneToOne',
       'api::gallery-album.gallery-album'
     >;
@@ -512,6 +512,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
       Schema.Attribute.Private;
     location: Schema.Attribute.String;
+    numberOfAttendees: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
     startDate: Schema.Attribute.DateTime & Schema.Attribute.Required;
     title: Schema.Attribute.String & Schema.Attribute.Required;

@@ -50,6 +50,9 @@
         "past"
       ]
     },
+    "numberOfAttendees": {
+      "type": "integer"
+    },
     "gallery": {
       "type": "relation",
       "relation": "oneToOne",
