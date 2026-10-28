@@ -495,6 +495,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    cta: Schema.Attribute.Component<'shared.cta', false>;
     description: Schema.Attribute.Text;
     endDate: Schema.Attribute.DateTime;
     eventStatus: Schema.Attribute.Enumeration<
