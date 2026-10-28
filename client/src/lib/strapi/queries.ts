@@ -115,9 +115,13 @@ const GALLERY_ALBUMS_QUERY = {
 
 const NEWS_POSTS_QUERY = {
   populate: {
-    avatar: true,
     postImage: true,
     emojis: true,
+    author: {
+      populate: {
+        profileImage: true
+      }
+    },
   },
   sort: ['postedAt:desc'],
   pagination: { pageSize: 100 },

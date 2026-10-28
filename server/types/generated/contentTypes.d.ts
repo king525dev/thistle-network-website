@@ -728,7 +728,7 @@ export interface ApiNewsPostNewsPost extends Struct.CollectionTypeSchema {
     pinned: Schema.Attribute.Boolean;
     postbody: Schema.Attribute.Text;
     postedAt: Schema.Attribute.DateTime & Schema.Attribute.Required;
-    postimage: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    postImage: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
