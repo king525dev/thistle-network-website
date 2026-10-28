@@ -50,7 +50,7 @@
         "past"
       ]
     },
-    "gallery_album": {
+    "gallery": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::gallery-album.gallery-album",
