@@ -39,9 +39,6 @@
         "audios"
       ]
     },
-    "registrationUrl": {
-      "type": "string"
-    },
     "eventStatus": {
       "type": "enumeration",
       "required": true,
@@ -62,7 +59,8 @@
     "cta": {
       "type": "component",
       "component": "shared.cta",
-      "repeatable": false
+      "repeatable": false,
+      "required": true
     }
   }
 }
