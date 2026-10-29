@@ -32,33 +32,40 @@ export default function NewsFeed({ posts, fallbackAvatar, emptyMessage }: NewsFe
   });
   const visible = filter === "All" ? sorted : sorted.filter((post) => post.newsType === filter);
 
-  return (
-    <div className="container">
-      <div className="feed-filters" role="group" aria-label="Filter updates">
-        <span className="filter-label">Filter Updates</span>
-        {FILTERS.map((option) => {
-          const count = option.value === "All" ? posts.length : posts.filter((p) => p.newsType === option.value).length;
-          return (
-            <button
-              key={option.value}
-              type="button"
-              className={`filter-btn${filter === option.value ? " active" : ""}`}
-              aria-pressed={filter === option.value}
-              onClick={() => setFilter(option.value)}
-            >
-              {option.label} <span className="filter-count">{count}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="feed-list" id="feedContainer">
-        {visible.length === 0 ? (
-          <p className="feed-empty">{emptyMessage}</p>
-        ) : (
-          visible.map((post) => <NewsPost key={post.id} post={post} fallbackAvatar={fallbackAvatar} />)
-        )}
-      </div>
+// components/news/NewsFeed.tsx (or wherever this file lives)
+return (
+  <div className="main-container">
+    {/* Left Column: The Feed */}
+    <div className="feed" id="feedContainer">
+      {visible.length === 0 ? (
+        <p className="feed-empty">{emptyMessage}</p>
+      ) : (
+        visible.map((post) => <NewsPost key={post.id} post={post} fallbackAvatar={fallbackAvatar} />)
+      )}
     </div>
-  );
+
+    {/* Right Column: The Filter Sidebar */}
+    <aside className="sidebar">
+      <div className="filter-box">
+        <div className="filter-title">Filter Updates</div>
+        <div className="feed-filters" role="group" aria-label="Filter updates">
+          {FILTERS.map((option) => {
+            const count = option.value === "All" ? posts.length : posts.filter((p) => p.newsType === option.value).length;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                className={`filter-btn${filter === option.value ? " active" : ""}`}
+                aria-pressed={filter === option.value}
+                onClick={() => setFilter(option.value)}
+              >
+                {option.label} <span className="filter-count">{count}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </aside>
+  </div>
+);
 }
