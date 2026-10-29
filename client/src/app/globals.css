@@ -8,7 +8,7 @@
   --nav-height: 76px;
 }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-height) + 18px); }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } */
 body {
   margin: 0;
   width: 100%;

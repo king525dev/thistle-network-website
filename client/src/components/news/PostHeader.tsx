@@ -23,7 +23,7 @@ export default function PostHeader({ post, fallbackAvatar }: PostHeaderProps) {
       <div className="post-header">
         <div className="avatar">
           {avatar && (
-            <Image src={avatar.url} alt="" width={avatar.width ?? 40} height={avatar.height ?? 40} unoptimized={avatar.url.endsWith(".svg")} />
+            <Image src={avatar.url} alt="" width={avatar.width ?? 40} height={avatar.height ?? 40} unoptimized={avatar.url.endsWith(".svg")} style={{ objectFit: "contain" }} />
           )}
         </div>
         <div className="meta">

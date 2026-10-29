@@ -7,6 +7,7 @@ type PostContentProps = {
 
 /** The post text and its optional image. */
 export default function PostContent({ post }: PostContentProps) {
+  console.log(post)
   return (
     <>
       <div className="post-body">{post.postBody}</div>
