@@ -1,3 +1,25 @@
 import type { NewsPost } from "@/types/news";
 
-export const mockNewsPosts: NewsPost[] = [{"id": "edinburgh-insight-registration", "authorHandle": "@thistlenetwork", "postedAt": "2026-09-03T09:00:00", "newsType": "Event", "postBody": "📌 Registration for our Edinburgh Insight Night (24 Sept) is now open! Spaces are limited to keep the speed-networking rounds meaningful, so register sooner rather than later — link in the Events section.", "postImage": undefined, "pinned": true, "likeCount": 34, "emojis": [{"emoji": "🙌", "count": 2}, {"emoji": "📌", "count": 2}]}, {"id": "glasgow-meetup-recap", "authorHandle": "@thistlenetwork", "postedAt": "2026-09-02T12:00:00", "newsType": "Event", "postBody": "That's a wrap on our Glasgow Summer Meet-Up! 60+ apprentices, one very competitive quiz, and a lot of new WhatsApp connections made. Photos are up in the Gallery now 📸", "postImage": {"id": "glasgow-meetup-recap-img", "url": "https://picsum.photos/seed/thistle-event-a/900/560", "width": 900, "height": 560, "alternativeText": "Update image"}, "pinned": false, "likeCount": 58, "emojis": [{"emoji": "🎉", "count": 2}, {"emoji": "📸", "count": 2}, {"emoji": "🙌", "count": 2}]}, {"id": "ey-insight-day-recap", "authorHandle": "@thistlenetwork", "postedAt": "2026-08-29T10:00:00", "newsType": "Announcement", "postBody": "Huge thanks to EY for hosting our Apprenticeship Insight Day in Edinburgh — mock interviews, a Q&A panel, and honest advice from current apprentices on switching sectors mid-programme. If you registered but couldn't make it, we'll be sharing a recap resource soon.", "postImage": {"id": "ey-insight-day-recap-img", "url": "https://picsum.photos/seed/thistle-event-g/900/560", "width": 900, "height": 560, "alternativeText": "Update image"}, "pinned": false, "likeCount": 41, "emojis": [{"emoji": "👏", "count": 2}]}, {"id": "bpuk-partnership", "authorHandle": "@thistlenetwork", "postedAt": "2026-08-25T09:00:00", "newsType": "Announcement", "postBody": "New partnership announcement 🎉 We're teaming up with Black Professionals UK to connect Thistle Network members with Black Apprentices Scotland — more joint events landing later this year.", "postImage": undefined, "pinned": false, "likeCount": 72, "emojis": [{"emoji": "🎉", "count": 2}, {"emoji": "🙌", "count": 2}]}] as NewsPost[];
+export const mockNewsPosts: NewsPost[] = [
+    {
+        "id": "edinburgh-insight-registration",
+        "authorHandle": "@thistlenetwork",
+        "postedAt": "2026-09-03T09:00:00", 
+        "newsType": "Event", 
+        "postBody": "📌 Registration for our Edinburgh Insight Night (24 Sept) is now open! Spaces are limited to keep the speed-networking rounds meaningful, so register sooner rather than later — link in the Events section.", 
+        "postImage": undefined, 
+        "pinned": true, 
+        "likeCount": 34, 
+        "emojis": [{ "emoji": "🙌", "count": 2 }, { "emoji": "📌", "count": 2 }]
+    },
+    {
+        "id": "glasgow-meetup-recap",
+        "authorHandle": "@thistlenetwork", 
+        "postedAt": "2026-09-02T12:00:00", 
+        "newsType": "Event", 
+        "postBody": "That's a wrap on our Glasgow Summer Meet-Up! 60+ apprentices, one very competitive quiz, and a lot of new WhatsApp connections made. Photos are up in the Gallery now 📸", "postImage": { "id": "glasgow-meetup-recap-img", "url": "https://picsum.photos/seed/thistle-event-a/900/560", "width": 900, "height": 560, "alternativeText": "Update image" }, "pinned": false, "likeCount": 58, "emojis": [{ "emoji": "🎉", "count": 2 }, { "emoji": "📸", "count": 2 }, { "emoji": "🙌", "count": 2 }]
+    },
+    {
+        "id": "ey-insight-day-recap",
+        "authorHandle": "@thistlenetwork", "postedAt": "2026-08-29T10:00:00", "newsType": "Announcement", "postBody": "Huge thanks to EY for hosting our Apprenticeship Insight Day in Edinburgh — mock interviews, a Q&A panel, and honest advice from current apprentices on switching sectors mid-programme. If you registered but couldn't make it, we'll be sharing a recap resource soon.", "postImage": { "id": "ey-insight-day-recap-img", "url": "https://picsum.photos/seed/thistle-event-g/900/560", "width": 900, "height": 560, "alternativeText": "Update image" }, "pinned": false, "likeCount": 41, "emojis": [{ "emoji": "👏", "count": 2 }]
+    }, { "id": "bpuk-partnership", "authorHandle": "@thistlenetwork", "postedAt": "2026-08-25T09:00:00", "newsType": "Announcement", "postBody": "New partnership announcement 🎉 We're teaming up with Black Professionals UK to connect Thistle Network members with Black Apprentices Scotland — more joint events landing later this year.", "postImage": undefined, "pinned": false, "likeCount": 72, "emojis": [{ "emoji": "🎉", "count": 2 }, { "emoji": "🙌", "count": 2 }] }] as NewsPost[];
