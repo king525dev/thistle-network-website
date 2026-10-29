@@ -83,7 +83,7 @@ export function mapEvent(entity: StrapiEntity<StrapiEventFields>, fallbackCover?
       ? { id: entity.gallery.documentId, title: entity.gallery.title, fullAlbumLink: entity.gallery.fullAlbumLink ?? undefined }
       : undefined,
     cta: mapCta(entity.cta, { text: "View event", link: entity.registrationUrl ?? "#" }),
-    status: (entity.status ?? "past") as EventStatus,
+    status: (entity.eventStatus ?? "past") as EventStatus,
   };
 }
 

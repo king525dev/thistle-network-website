@@ -495,6 +495,8 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    cta: Schema.Attribute.Component<'shared.cta', false> &
+      Schema.Attribute.Required;
     description: Schema.Attribute.Text;
     endDate: Schema.Attribute.DateTime;
     eventStatus: Schema.Attribute.Enumeration<
@@ -502,7 +504,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'next'>;
-    gallery_album: Schema.Attribute.Relation<
+    gallery: Schema.Attribute.Relation<
       'oneToOne',
       'api::gallery-album.gallery-album'
     >;
@@ -510,8 +512,8 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
       Schema.Attribute.Private;
     location: Schema.Attribute.String;
+    numberOfAttendees: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
-    registrationUrl: Schema.Attribute.String;
     startDate: Schema.Attribute.DateTime & Schema.Attribute.Required;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
@@ -643,6 +645,7 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
   };
   attributes: {
     about: Schema.Attribute.Component<'home.about', false>;
+    contact: Schema.Attribute.Component<'home.contact', false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -725,7 +728,7 @@ export interface ApiNewsPostNewsPost extends Struct.CollectionTypeSchema {
     pinned: Schema.Attribute.Boolean;
     postbody: Schema.Attribute.Text;
     postedAt: Schema.Attribute.DateTime & Schema.Attribute.Required;
-    postimage: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    postImage: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;

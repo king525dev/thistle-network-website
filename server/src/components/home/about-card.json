@@ -13,7 +13,7 @@
     "description": {
       "type": "text"
     },
-    "aboutCta": {
+    "cta": {
       "type": "component",
       "component": "shared.cta",
       "repeatable": true

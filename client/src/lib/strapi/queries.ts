@@ -1,31 +1,134 @@
-import type { StrapiCollectionResponse, StrapiEntity, StrapiEventFields, StrapiGalleryAlbumFields, StrapiHeroPhotoFields, StrapiHomePageFields, StrapiNewsPostFields, StrapiPageFields, StrapiSingleResponse, StrapiSiteSettingFields } from "./types";
+import qs from 'qs';
 import { strapiFetch, StrapiError } from "./client";
+import type { 
+  StrapiCollectionResponse, 
+  StrapiEntity, 
+  StrapiEventFields, 
+  StrapiGalleryAlbumFields, 
+  StrapiHeroPhotoFields, 
+  StrapiHomePageFields, 
+  StrapiNewsPostFields, 
+  StrapiPageFields, 
+  StrapiSingleResponse, 
+  StrapiSiteSettingFields 
+} from "./types";
 
-/**
- * Raw requests only. Routes never call these: they go through lib/content.ts.
- * Strapi 5 returns no relations, media or components unless asked, so every
- * request spells out its `populate`.
- */
+// QUERIES
 
-const HOME_POPULATE = [
-  "populate[hero][populate]=*",
-  "populate[joinModal][populate][options]=true",
-  "populate[registration][populate][steps]=true",
-  "populate[eventsSection]=true",
-  "populate[about][populate][aboutCta]=true",
-  "populate[about][populate][aboutGrid][populate][cta]=true",
-  "populate[faq][populate][items]=true",
-  "populate[contact][populate][socials]=true",
-].join("&");
+const HOME_PAGE_QUERY = {
+  populate: {
+    hero: {
+      populate: {
+        heroLogo: true,
+        thistleIcon: true,
+      },
+    },
 
-const SITE_POPULATE = [
-  "populate[navLogo]=true",
-  "populate[navLinks]=true",
-  "populate[navCta]=true",
-  "populate[footerLogo]=true",
-  "populate[footerSocials]=true",
-  "populate[footerColumns][populate][links]=true",
-].join("&");
+    joinModal: {
+      populate: {
+        options: true,
+      },
+    },
+
+    registration: {
+      populate: {
+        steps: true,
+      },
+    },
+
+    eventsSection: true,
+
+    about: {
+      populate: {
+        aboutCta: true,
+        aboutGrid: {
+          populate: {
+            cta: true,
+          },
+        },
+      },
+    },
+
+    faq: {
+      populate: {
+        items: true,
+      },
+    },
+
+    contact: {
+      populate: {
+        socials: true,
+      },
+    },
+  },
+}
+
+const SITE_SETTINGS_QUERY = {
+  populate: {
+    navLogo: true,
+    navLinks: true,
+    navCta: true,
+    footerLogo: true,
+    footerSocials: true,
+    footerColumns: {
+      populate: { links: true },
+    },
+  },
+};
+const GALLERY_PAGE_QUERY = {
+  populate: {
+    header: true,
+  },
+};
+
+const NEWS_PAGE_QUERY = {
+  populate: {
+    header: true,
+  },
+};
+
+const HEROS_PHOTOS_QUERY = {
+  populate: { image: true },
+  sort: ['order:asc'],
+  pagination: { pageSize: 100 },
+};
+
+const EVENTS_QUERY = {
+  populate: {
+    coverImage: true,
+    cta: true,
+    gallery: true,
+  },
+  sort: ['startDate:desc'],
+  pagination: { pageSize: 100 },
+};
+
+const GALLERY_ALBUMS_QUERY = {
+  populate: {
+    images: true,
+    coverImage: true,
+    event: true,
+  },
+  sort: ['date:desc'],
+  pagination: { pageSize: 100 },
+};
+
+const NEWS_POSTS_QUERY = {
+  populate: {
+    postImage: true,
+    emojis: true,
+    author: {
+      populate: {
+        profileImage: true
+      }
+    },
+  },
+  sort: ['postedAt:desc'],
+  pagination: { pageSize: 100 },
+};
+
+const toQueryString = (query: object) =>
+  qs.stringify(query, { encodeValuesOnly: true });
 
 async function fetchSingle<T>(path: string): Promise<T | null> {
   try {
@@ -37,35 +140,35 @@ async function fetchSingle<T>(path: string): Promise<T | null> {
   }
 }
 
-export const fetchHomePage = () => fetchSingle<StrapiHomePageFields>(`/api/home-page?${HOME_POPULATE}`);
-export const fetchSiteSettings = () => fetchSingle<StrapiSiteSettingFields>(`/api/site-setting?${SITE_POPULATE}`);
-export const fetchGalleryPage = () => fetchSingle<StrapiPageFields>(`/api/gallery-page?populate[header]=true`);
-export const fetchNewsPage = () => fetchSingle<StrapiPageFields>(`/api/news-page?populate[header]=true`);
+export const fetchHomePage = () => fetchSingle<StrapiHomePageFields>(`/api/home-page?${toQueryString(HOME_PAGE_QUERY)}`);
+export const fetchSiteSettings = () => fetchSingle<StrapiSiteSettingFields>(`/api/site-setting?${toQueryString(SITE_SETTINGS_QUERY)}`);
+export const fetchGalleryPage = () => fetchSingle<StrapiPageFields>(`/api/gallery-page?${toQueryString(GALLERY_PAGE_QUERY)}`);
+export const fetchNewsPage = () => fetchSingle<StrapiPageFields>(`/api/news-page?${toQueryString(NEWS_PAGE_QUERY)}`);
 
 export async function fetchHeroPhotos(): Promise<StrapiEntity<StrapiHeroPhotoFields>[]> {
   const res = await strapiFetch<StrapiCollectionResponse<StrapiHeroPhotoFields>>(
-    "/api/hero-photos?populate[image]=true&sort=order:asc&pagination[pageSize]=100"
+    `/api/hero-photos?${toQueryString(HEROS_PHOTOS_QUERY)}`
   );
   return res.data;
 }
 
 export async function fetchEvents(): Promise<StrapiEntity<StrapiEventFields>[]> {
   const res = await strapiFetch<StrapiCollectionResponse<StrapiEventFields>>(
-    "/api/events?populate[coverImage]=true&populate[cta]=true&populate[gallery]=true&sort=startDate:desc&pagination[pageSize]=100"
+    `/api/events?${toQueryString(EVENTS_QUERY)}`
   );
   return res.data;
 }
 
 export async function fetchGalleryAlbums(): Promise<StrapiEntity<StrapiGalleryAlbumFields>[]> {
   const res = await strapiFetch<StrapiCollectionResponse<StrapiGalleryAlbumFields>>(
-    "/api/gallery-albums?populate[images]=true&populate[coverImage]=true&populate[event]=true&sort=date:desc&pagination[pageSize]=100"
+    `/api/gallery-albums?${toQueryString(GALLERY_ALBUMS_QUERY)}`
   );
   return res.data;
 }
 
 export async function fetchNewsPosts(): Promise<StrapiEntity<StrapiNewsPostFields>[]> {
   const res = await strapiFetch<StrapiCollectionResponse<StrapiNewsPostFields>>(
-    "/api/news-posts?populate[avatar]=true&populate[postImage]=true&populate[emojis]=true&sort=postedAt:desc&pagination[pageSize]=100"
+    `/api/news-posts?${toQueryString(NEWS_POSTS_QUERY)}`
   );
   return res.data;
 }

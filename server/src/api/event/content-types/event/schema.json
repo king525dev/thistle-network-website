@@ -39,9 +39,6 @@
         "audios"
       ]
     },
-    "registrationUrl": {
-      "type": "string"
-    },
     "eventStatus": {
       "type": "enumeration",
       "required": true,
@@ -53,11 +50,20 @@
         "past"
       ]
     },
-    "gallery_album": {
+    "numberOfAttendees": {
+      "type": "integer"
+    },
+    "gallery": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::gallery-album.gallery-album",
       "inversedBy": "event"
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.cta",
+      "repeatable": false,
+      "required": true
     }
   }
 }

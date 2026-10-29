@@ -36,7 +36,7 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::event.event",
-      "mappedBy": "gallery_album"
+      "mappedBy": "gallery"
     },
     "coverImage": {
       "type": "media",
