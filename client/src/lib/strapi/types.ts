@@ -130,8 +130,7 @@ export type StrapiGalleryAlbumFields = {
 };
 
 export type StrapiNewsPostFields = {
-  authorHandle: string;
-  avatar?: StrapiMedia | null;
+  author: StrapiComponent<{ name: string; handle: string; profileImage: StrapiMedia | null; }> | null;
   postedAt: string;
   newsType: "Announcement" | "Event";
   postBody: string;
