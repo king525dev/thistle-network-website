@@ -19,7 +19,7 @@
     "title": {
       "type": "string"
     },
-    "postbody": {
+    "postBody": {
       "type": "text"
     },
     "pinned": {

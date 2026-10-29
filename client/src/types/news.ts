@@ -10,6 +10,7 @@ export type NewsEmojiReaction = {
 export type NewsPost = {
   id: string;
   authorHandle: string;
+  authorName: string;
   avatar?: Media;
   postedAt: string;
   newsType: NewsType;

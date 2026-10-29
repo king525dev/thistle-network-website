@@ -28,7 +28,7 @@ export default function PostHeader({ post, fallbackAvatar }: PostHeaderProps) {
         </div>
         <div className="meta">
           <div className="meta-top">
-            <span className="author">Thistle Network</span>
+            <span className="author">{post.authorName}</span>
             <span className="handle">{post.authorHandle}</span>
             <time className="time" dateTime={post.postedAt}>· {formatShortDate(post.postedAt)}</time>
           </div>

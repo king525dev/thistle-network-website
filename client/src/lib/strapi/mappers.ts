@@ -108,8 +108,9 @@ export function mapGalleryAlbum(entity: StrapiEntity<StrapiGalleryAlbumFields>):
 export function mapNewsPost(entity: StrapiEntity<StrapiNewsPostFields>): NewsPost {
   return {
     id: entity.documentId,
-    authorHandle: entity.authorHandle,
-    avatar: mapMedia(entity.avatar),
+    authorHandle: entity.author?.handle ?? "",
+    authorName: entity.author?.name ?? "",
+    avatar: mapMedia(entity.author?.profileImage),
     postedAt: entity.postedAt,
     newsType: entity.newsType,
     postBody: entity.postBody,

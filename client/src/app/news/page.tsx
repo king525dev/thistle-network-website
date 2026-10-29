@@ -11,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function NewsPage() {
   const [{ page, posts, avatarFallback }, site] = await Promise.all([getNewsContent(), getSiteContent()]);
+  console.log(posts[0].postBody)
 
   return (
     <>
