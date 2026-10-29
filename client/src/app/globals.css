@@ -381,7 +381,7 @@ section[id], footer[id] { scroll-margin-top: calc(var(--nav-height) + 18px); }
             left: 50%;
             transform: translate(-50%, -50%); /* Mathematically Perfect Centering */
             z-index: 100; /* Guaranteed to be above photos */
-            background: rgba(247, 245, 240, 0.75); 
+            background: rgba(247, 245, 240, 0.98);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.9);
