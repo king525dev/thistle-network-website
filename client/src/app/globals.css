@@ -2080,26 +2080,54 @@ section[id], footer[id] { scroll-margin-top: calc(var(--nav-height) + 18px); }
         /* =========================================
            Main Layout (Merged Feed + Filter)
            ========================================= */
-        .main-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px 20px 100px;
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 50px;
-            align-items: start;
-        }
+        /* The main grid layout */
+.main-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 20px 100px;
+  display: grid;
+  grid-template-columns: 1fr 300px; /* Feed on left, filter on right */
+  gap: 50px;
+  align-items: start;
+  width: 100%;
+}
 
-        @media (max-width: 900px) {
-            .main-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            .sidebar {
-                order: -1; /* Move filter to top on mobile */
-            }
-        }
+/* Forces columns to respect the grid boundaries */
+.feed, .sidebar {
+  min-width: 0; 
+}
 
+.sidebar {
+  position: sticky;
+  top: calc(var(--nav-height) + 20px);
+}
+
+/* Filter Box Styling (if not already in your CSS) */
+.filter-box {
+  background: var(--white);
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.filter-list, .feed-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Mobile Responsive Fix */
+@media (max-width: 900px) {
+  .main-container {
+    grid-template-columns: 1fr; /* Collapse to single column */
+    gap: 40px;
+  }
+  .sidebar {
+    order: -1; /* Move filter to the top on mobile */
+    position: static !important; /* Disable sticky */
+  }
+}
         /* =========================================
            Timeline Feed
            ========================================= */
@@ -2236,6 +2264,8 @@ section[id], footer[id] { scroll-margin-top: calc(var(--nav-height) + 18px); }
         .post-img {
             width: 100%;
             border-radius: 6px;
+            max-height: 380px; /* ADD THIS LINE */
+            object-fit: cover;
             margin-bottom: 16px;
             border: 1px solid rgba(0,0,0,0.05);
             filter: sepia(0.1) contrast(0.98);
@@ -2362,10 +2392,48 @@ section[id], footer[id] { scroll-margin-top: calc(var(--nav-height) + 18px); }
         /* =========================================
            Footer
            ========================================= */
-        .site-footer {
-            background-color: var(--ink); color: var(--white); padding: 80px 20px 40px;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-        }
+        /* 1. Adjust overall Footer Padding (Top / Bottom / Sides) */
+.site-footer {
+  background-color: var(--ink); 
+  color: var(--white); 
+  /* Change the 100px top padding, 20px sides, and 40px bottom padding */
+  padding: 80px 20px 30px; 
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* 2. Space between Contact section and Link columns */
+.site-footer .footer-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  /* Adjust the gap between the columns */
+  gap: 60px; 
+  /* Adjust the space below the links, before the copyright */
+  margin-bottom: 60px; 
+}
+
+/* 3. Space around the Copyright row */
+.site-footer .footer-bottom {
+  /* Adjust space above the copyright text */
+  padding-top: 30px; 
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* 4. Space around the Contact band (If it's on the homepage) */
+.site-footer .footer-contact {
+  text-align: center;
+  /* Space below contact and above the divider */
+  margin-bottom: 60px; 
+  /* Space below the divider before link columns */
+  padding-bottom: 60px; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
         .footer-container { max-width: 1100px; margin: 0 auto; }
         .footer-contact { text-align: center; margin-bottom: 60px; padding-bottom: 60px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .footer-contact .eyebrow { color: rgba(255, 255, 255, 0.5); justify-content: center; }
